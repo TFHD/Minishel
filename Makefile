@@ -15,6 +15,8 @@ CC			:= cc
 
 FLAGS 		:= -Wall -Werror -Wextra -I includes -g
 
+LIB			:= srcs/libs/libft/libft.a
+
 TPUT 		:= tput -T xterm-256color
 _BOLD 		:= $(shell $(TPUT) bold)
 _GREEN 		:= $(shell $(TPUT) setaf 2)
@@ -28,9 +30,12 @@ CURR_OBJ	= 0
 
 all: ${NAME}
 
-${NAME}: ${OBJS}
-	@${CC} -o ${NAME} ${OBJS} -lreadline
+${NAME}: ${OBJS} ${LIB}
+	@${CC} -o ${NAME} ${OBJS} ${LIB} -lreadline
 	@printf "$(_BOLD)$(NAME)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n"
+
+${LIB}:
+	@make -C srcs/libs/libft
 
 ${DIR}%.o: ${DIR}%.c
 	@${CC} ${FLAGS} -o $@ -c $<
@@ -40,10 +45,12 @@ ${DIR}%.o: ${DIR}%.c
 	
 clean:
 	@rm -f ${OBJS}
+	@make -C srcs/libs/libft clean
 	@printf "Cleaned $(_BOLD)$(OBJS)$(_RESET)\n"
 
 fclean: clean
 	@rm -f ${NAME}
+	@make -C srcs/libs/libft clean fclean
 	@printf "Cleaned $(_BOLD)$(NAME)$(_RESET)\n"
 
 re: fclean all
