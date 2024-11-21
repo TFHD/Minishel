@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 17:24:00 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/20 20:01:47 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/21 00:51:17 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,6 @@ int	fill_arg(char *args, char *line)
 	return (i + 1);
 }
 
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*(str + i) != '\0')
-		i++;
-	return (i);
-}
-
 int	split_args(char **args, char *line)
 {
 	int	i;
@@ -81,7 +71,7 @@ int	split_args(char **args, char *line)
 
 	i = 0;
 	j = 0;
-	while (i < ft_strlen(line) && line[i] != 0)
+	while (i < (int)ft_strlen(line) && line[i] != 0)
 	{
 		args[j] = malloc(sizeof(char) * (size_arg(line + i) + 1));
 		if (!args[j])
@@ -98,18 +88,17 @@ int	split_args(char **args, char *line)
 	return (0);
 }
 
-char	**parse(char *line)
+int	parse(char ***args, char *line)
 {
-	char	**args;
 	int		nb_args;
 
 	nb_args = count_args(line, ' ');
 	if (!nb_args)
-		return (0);
-	args = malloc(sizeof(char *) * (nb_args + 1));
-	if (!args)
-		return (parsing_error());
-	if (split_args(args, line))
-		return (parsing_error());
-	return (args);
+		return (1);
+	*args = malloc(sizeof(char *) * (nb_args + 1));
+	if (!*args)
+		return (exit_error(PARSE_ERR));
+	if (split_args(*args, line))
+		return (exit_error(PARSE_ERR));
+	return (0);
 }

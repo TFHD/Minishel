@@ -1,19 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 19:49:11 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/21 00:35:42 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/21 00:26:01 by sabartho          #+#    #+#             */
+/*   Updated: 2024/11/21 00:54:36 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit_error(char *str)
+void	change_dir(char *dir, int nb_args)
 {
-	printf("%s", str);
-	return (1);
+	int	succes;
+
+	if (nb_args > 2)
+	{
+		exit_error(FORMAT_ERR);
+		return ;
+	}
+	if (nb_args == 1)
+		dir = ft_strdup("/nfs/homes/sabartho/");
+	succes = chdir(dir);
+	if (succes)
+	{
+		exit_error(CHDIR_ERR);
+		printf("%s\n", dir);
+	}
+	if (nb_args == 1)
+		free(dir);
 }

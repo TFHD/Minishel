@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 19:49:11 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/21 00:35:42 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/21 00:22:25 by sabartho          #+#    #+#             */
+/*   Updated: 2024/11/21 00:55:19 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exit_error(char *str)
+void	print_envp(char **envp, int nb_args)
 {
-	printf("%s", str);
-	return (1);
+	if (nb_args != 1)
+	{
+		exit_error(FORMAT_ERR);
+		return ;
+	}
+	while (*envp)
+		printf("%s\n", *(envp++));
 }

@@ -7,7 +7,12 @@ DIRB		:=	srcs_bonus/
 SRCS		:= 	main.c \
 				parse.c \
 				errors.c \
-				function_manager.c
+				function_manager.c \
+				commands/env.c \
+				commands/cd.c \
+				commands/pwd.c \
+				commands/exit.c \
+				commands/ls.c
 			
 OBJS		:=	$(patsubst %.c, $(DIR)%.o, $(SRCS))
 
