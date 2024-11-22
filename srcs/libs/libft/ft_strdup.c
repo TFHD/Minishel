@@ -6,13 +6,13 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 12:51:28 by sabartho          #+#    #+#             */
-/*   Updated: 2024/07/18 12:51:29 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:52:54 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(char *src)
+char	*ft_strdup(char *src, int free_flag)
 {
 	char	*ptr_cpy;
 	int		size;
@@ -31,5 +31,7 @@ char	*ft_strdup(char *src)
 		i++;
 	}
 	ptr_cpy[i] = '\0';
+	if (free_flag)
+		free(src);
 	return (ptr_cpy);
 }

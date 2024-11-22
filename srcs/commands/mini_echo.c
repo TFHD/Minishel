@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   mini_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/21 00:26:01 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/22 18:01:58 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/22 23:31:55 by sabartho          #+#    #+#             */
+/*   Updated: 2024/11/22 23:43:20 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
 
-void	change_dir(char *dir, int nb_args)
+void	mini_echo(char **args, int nb_args)
 {
-	int	succes;
+	int	i;
 
-	if (nb_args > 2)
+	i = 1;
+	if (nb_args == 1)
 	{
-		exit_error(FORMAT_ERR);
+		printf("\n");
 		return ;
 	}
-	if (nb_args == 1)
-		dir = ft_strdup(getenv("HOME"), 0);
-	succes = chdir(dir);
-	if (succes)
-	{
-		exit_error(CHDIR_ERR);
-		printf("%s\n", dir);
-	}
-	if (nb_args == 1)
-		free(dir);
+	while (i < nb_args)
+		printf("%s ", args[i++]);
+	printf("\n");
 }

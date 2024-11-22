@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:13:21 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/22 08:54:01 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:36:37 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	free_all(char *line, char **args, char *prompt_line)
 			free(args[i++]);
 		free(args);
 	}
-	free(line);
-	free(prompt_line);
+	if (line)
+		free(line);
+	if (prompt_line)
+		free(prompt_line);
 }
 
 void	reset_prompt(int sig)
@@ -55,12 +57,13 @@ void	on_prompt(char **envp, char *prompt_line)
 	{
 		args = NULL;
 		if (!parse(&args, line))
-			function_manager(args, envp, line);
+			envp = function_manager(args, envp, line);
 		free_all(line, args, prompt_line);
 		getcwd(cwd, sizeof(cwd));
 		prompt_line = get_prompt_line(PROMPT_LINE, cwd);
 		line = readline(prompt_line);
 	}
+	//free_all(0, envp, 0);
 	free(prompt_line);
 }
 

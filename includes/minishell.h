@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:30:15 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/22 08:28:33 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/22 23:36:23 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,17 @@ void	get_env(char **args, int nb_args);
 //Error functions
 
 int		exit_error(char *str);
+void	free_all(char *line, char **str, char *prompt_line);
 
 //Commmand functions
 
-void	function_manager(char **args, char **envp, char *line);
+char	**function_manager(char **args, char **envp, char *line);
 
 void	print_envp(char **envp, int nb_args);
 void	change_dir(char *dir, int nb_args);
 void	get_pwd(int nb_args);
 void	ft_exit(char **args, char *line, int nb_args);
 void	ls(char **dir, int nb_args);
-
+void	mini_echo(char **args, int nb_args);
+char	**export(char *str, char **evnp);
 #endif

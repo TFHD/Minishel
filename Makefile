@@ -15,7 +15,8 @@ SRCS		:= 	main.c \
 				commands/cd.c \
 				commands/pwd.c \
 				commands/exit.c \
-				commands/ls.c
+				commands/ls.c \
+				commands/mini_echo.c
 			
 OBJS		:=	$(patsubst %.c, $(DIR)%.o, $(SRCS))
 
