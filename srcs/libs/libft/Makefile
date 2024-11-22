@@ -41,7 +41,9 @@ SRCS	= 	ft_atoi.c \
 			ft_lstdelone_bonus.c \
 			ft_lstclear_bonus.c \
 			ft_lstiter_bonus.c \
-			ft_lstmap_bonus.c
+			ft_lstmap_bonus.c \
+			ft_strcat.c \
+			ft_strsjoin.c
 
 OBJS		:=	$(patsubst %.c, %.o, $(SRCS))
 
@@ -53,12 +55,16 @@ CC		=	cc
 
 FLAGS 	= 	-Wall -Werror -Wextra
 
-TPUT 		:= tput -T xterm-256color
-_BOLD 		:= $(shell $(TPUT) bold)
-_GREEN 		:= $(shell $(TPUT) setaf 2)
-_RESET 		:= $(shell $(TPUT) sgr0)
-_PURPLE 	:= $(shell $(TPUT) setaf 5)
-_YELLOW 	:= $(shell $(TPUT) setaf 3)
+TPUT 					= tput -T xterm-256color
+_RESET 					:= $(shell $(TPUT) sgr0)
+_BOLD 					:= $(shell $(TPUT) bold)
+_ITALIC 				:= $(shell $(TPUT) sitm)
+_UNDER 					:= $(shell $(TPUT) smul)
+_GREEN 					:= $(shell $(TPUT) setaf 2)
+_YELLOW 				:= $(shell $(TPUT) setaf 3)
+_RED 					:= $(shell $(TPUT) setaf 1)
+_GRAY 					:= $(shell $(TPUT) setaf 8)
+_PURPLE 				:= $(shell $(TPUT) setaf 5)
 
 OBJS_TOTAL	= $(words $(OBJS))
 N_OBJS		:= $(shell find $(DIR) -type f -name $(OBJS) 2>/dev/null | wc -l)
@@ -69,17 +75,18 @@ all: ${NAME}
 
 $(NAME): ${OBJS}
 	@${AR} ${NAME} ${OBJS}
+	@printf "$(_BOLD)$(_UNDER)$(_YELLOW)                                                          $(_RESET)\n"
 	@printf "$(_BOLD)$(NAME)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n"
+
 	
 %.o: %.c
 	@${CC} ${FLAGS} -o $@ -c $<
 	@$(eval CURR_OBJ=$(shell echo $$(( $(CURR_OBJ) + 1 ))))
 	@$(eval PERCENT=$(shell echo $$(( $(CURR_OBJ) * 100 / $(OBJS_TOTAL) ))))
-	@printf "$(_YELLOW)LIBFT :$(_RESET) $(_GREEN)($(_BOLD)%3s%%$(_RESET)$(_GREEN)) $(_RESET)Compiling $(_BOLD)$(_PURPLE)$<$(_RESET)\n" "$(PERCENT)"
+	@printf "$(_YELLOW)$(_RESET)$(_GREEN)($(_BOLD)%3s%%$(_RESET)$(_GREEN)) $(_RESET)Compiling $(_BOLD)$(_PURPLE)$<$(_RESET)\n" "$(PERCENT)"
 
 clean:
 	@rm -f ${OBJS}
-	@printf "Cleaned $(_BOLD)$(OBJS)$(_RESET)\n"
 
 fclean: clean
 	@rm -f ${NAME}

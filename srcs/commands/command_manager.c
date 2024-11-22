@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function_manager.c                                 :+:      :+:    :+:   */
+/*   command_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:47:50 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/21 02:27:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/22 08:54:03 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	function_manager(char **args, char **envp, char *line)
 		printf("echo command\n");
 	else if (!strcmp("exit", args[0]))
 		ft_exit(args, line, nb_args);
-	else if (!strcmp("ls", args[0]))
-		ls(args, nb_args);
-	else
-		printf("invalid command !\n");
+	/*else
+		Integration execve*/
 }

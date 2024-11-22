@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 09:21:07 by sabartho          #+#    #+#             */
-/*   Updated: 2024/10/08 09:22:13 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/22 08:53:57 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,8 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char	*ft_strcat(char *dst, char *src);
+char	*ft_strsjoin(int free_flag, int strs_count, ...);
+
 
 #endif

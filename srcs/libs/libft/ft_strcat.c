@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 19:49:11 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/22 03:05:32 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/22 00:06:58 by sabartho          #+#    #+#             */
+/*   Updated: 2024/11/22 00:15:40 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	exit_error(char *str)
+char	*ft_strcat(char *dst, char *src)
 {
-	printf("%s", str);
-	return (1);
+	char	*tmp_dst;
+
+	tmp_dst = dst;
+	while (*tmp_dst)
+		tmp_dst++;
+	while (*src)
+		*tmp_dst++ = *src++;
+	*tmp_dst = 0;
+	return (dst);
 }

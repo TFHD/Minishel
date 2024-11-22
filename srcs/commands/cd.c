@@ -6,11 +6,12 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 00:26:01 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/21 00:54:36 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/11/22 04:55:53 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
 
 void	change_dir(char *dir, int nb_args)
 {
@@ -22,7 +23,7 @@ void	change_dir(char *dir, int nb_args)
 		return ;
 	}
 	if (nb_args == 1)
-		dir = ft_strdup("/nfs/homes/sabartho/");
+		dir = ft_strdup(getenv("HOME"));
 	succes = chdir(dir);
 	if (succes)
 	{

@@ -5,9 +5,12 @@ DIR			:=	srcs/
 DIRB		:=	srcs_bonus/
 
 SRCS		:= 	main.c \
-				parse.c \
 				errors.c \
-				function_manager.c \
+				parsing/parse.c \
+				parsing/parse_quote.c \
+				parsing/get_env.c \
+				commands/command_manager.c \
+				commands/export.c \
 				commands/env.c \
 				commands/cd.c \
 				commands/pwd.c \
@@ -22,11 +25,16 @@ FLAGS 		:= -Wall -Werror -Wextra -I includes -g
 
 LIB			:= srcs/libs/libft/libft.a
 
-TPUT 		:= tput -T xterm-256color
-_BOLD 		:= $(shell $(TPUT) bold)
-_GREEN 		:= $(shell $(TPUT) setaf 2)
-_RESET 		:= $(shell $(TPUT) sgr0)
-_PURPLE 	:= $(shell $(TPUT) setaf 5)
+TPUT 					= tput -T xterm-256color
+_RESET 					:= $(shell $(TPUT) sgr0)
+_BOLD 					:= $(shell $(TPUT) bold)
+_ITALIC 				:= $(shell $(TPUT) sitm)
+_UNDER 					:= $(shell $(TPUT) smul)
+_GREEN 					:= $(shell $(TPUT) setaf 2)
+_YELLOW 				:= $(shell $(TPUT) setaf 3)
+_RED 					:= $(shell $(TPUT) setaf 1)
+_GRAY 					:= $(shell $(TPUT) setaf 8)
+_PURPLE 				:= $(shell $(TPUT) setaf 5)
 
 OBJS_TOTAL	= $(words $(OBJS))
 N_OBJS		:= $(shell find $(DIR) -type f -name $(OBJS) 2>/dev/null | wc -l)
@@ -37,10 +45,11 @@ all: ${NAME}
 
 ${NAME}: ${OBJS} ${LIB}
 	@${CC} -o ${NAME} ${OBJS} ${LIB} -lreadline
-	@printf "$(_BOLD)$(NAME)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n"
+	@printf "$(_BOLD)$(NAME)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n\n"
 
 ${LIB}:
-	@make -C srcs/libs/libft
+	@printf "$(_BOLD)$(_UNDER)$(_YELLOW)                            LIBFT                           \n"
+	@make --no-print-directory -C srcs/libs/libft
 
 ${DIR}%.o: ${DIR}%.c
 	@${CC} ${FLAGS} -o $@ -c $<
@@ -50,13 +59,13 @@ ${DIR}%.o: ${DIR}%.c
 	
 clean:
 	@rm -f ${OBJS}
-	@make -C srcs/libs/libft clean
-	@printf "Cleaned $(_BOLD)$(OBJS)$(_RESET)\n"
+	@make --no-print-directory -C srcs/libs/libft clean
+	@printf "\n$(_BOLD)All objects are $(_GREEN)cleaned $(_RESET)! 🎉\n\n"
 
 fclean: clean
 	@rm -f ${NAME}
-	@make -C srcs/libs/libft clean fclean
-	@printf "Cleaned $(_BOLD)$(NAME)$(_RESET)\n"
+	@make --no-print-directory -C srcs/libs/libft clean fclean
+	@printf "Cleaned $(_BOLD)$(NAME)$(_RESET) !\n\n"
 
 re: fclean all
 
