@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2024/11/30 16:56:28 by albernar         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:04:59 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **envp)
 	print_header();
 	while (1)
 	{
-		prompt = get_prompt();
+		prompt = get_prompt(env_list);
 		input = readline(prompt);
 		add_history(input);
 		if (!input)

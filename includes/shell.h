@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 03:41:17 by albernar          #+#    #+#             */
-/*   Updated: 2024/11/27 04:25:53 by albernar         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:02:31 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ t_env_list	*create_env_node(void *content);
 void		add_env_node(t_env_list **head, t_env_list *new_node);
 void		free_env_list(t_env_list *head);
 t_env_list	*copy_env(char **envp);
+char		*get_env(t_env_list *env_list, char *env_name);
 
 // PROMPT
-char		*get_prompt(void);
+char		*get_prompt(t_env_list *env_list);
 void		print_header(void);
 char		*build_prompt_with_home(const char *cwd, const char *home);
 char		*build_prompt_without_home(const char *cwd);

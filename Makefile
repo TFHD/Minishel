@@ -21,6 +21,7 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				parsing/token/token_parser.c \
 				shell/env/create_env.c \
 				shell/env/env_list.c \
+				shell/env/env_utils.c \
 				shell/prompt/prompt_builder.c \
 				shell/prompt/prompt.c \
 				main.c \
