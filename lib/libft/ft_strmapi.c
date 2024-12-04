@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 21:57:05 by sabartho         ###   ########.fr       */
+/*   Created: 2024/10/08 23:31:37 by albernar          #+#    #+#             */
+/*   Updated: 2024/10/08 23:55:33 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "shell.h"
-# include "token.h"
-# include "ast.h"
-# include "../lib/libft/libft.h"
-# include "../srcs/leak_protector/leak_protector.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+#include "libft.h"
 
-#endif
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	char	*dst;
+	char	*tmp_s;
+	size_t	s_len;
+
+	if (!s || !f)
+		return (NULL);
+	s_len = ft_strlen(s);
+	dst = malloc(sizeof(char) * (s_len + 1));
+	if (!dst)
+		return (NULL);
+	tmp_s = (char *)s - 1;
+	while (*++tmp_s)
+		*dst++ = f(tmp_s - s, *tmp_s);
+	*dst = 0;
+	return (dst - s_len);
+}

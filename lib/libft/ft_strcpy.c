@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 21:57:05 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/24 00:17:14 by albernar          #+#    #+#             */
+/*   Updated: 2024/11/24 00:18:06 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "shell.h"
-# include "token.h"
-# include "ast.h"
-# include "../lib/libft/libft.h"
-# include "../srcs/leak_protector/leak_protector.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+#include "libft.h"
 
-#endif
+char	*ft_strcpy(char *dest, const char *src)
+{
+	char	*tmp_dest;
+
+	tmp_dest = dest;
+	while (*src)
+		*tmp_dest++ = *src++;
+	*tmp_dest = 0;
+	return (dest);
+}

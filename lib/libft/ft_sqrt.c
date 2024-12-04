@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 21:57:05 by sabartho         ###   ########.fr       */
+/*   Created: 2024/10/26 08:08:10 by albernar          #+#    #+#             */
+/*   Updated: 2024/10/26 08:08:11 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "shell.h"
-# include "token.h"
-# include "ast.h"
-# include "../lib/libft/libft.h"
-# include "../srcs/leak_protector/leak_protector.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+#include "libft.h"
 
-#endif
+int	ft_sqrt(int nb)
+{
+	int	i;
+
+	if (nb < 0)
+		return (0);
+	i = 0;
+	while (i * i < nb)
+		i++;
+	if (i * i == nb)
+		return (i);
+	else
+		return (0);
+}

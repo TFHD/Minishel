@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   lp_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 21:57:05 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/27 04:33:00 by albernar          #+#    #+#             */
+/*   Updated: 2024/11/27 04:35:47 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "shell.h"
-# include "token.h"
-# include "ast.h"
-# include "../lib/libft/libft.h"
-# include "../srcs/leak_protector/leak_protector.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+#include "../leak_protector.h"
 
-#endif
+char	*lp_strdup(const char *src)
+{
+	const char	*new_src;
+	char		*dest;
+
+	if (!src)
+		return (NULL);
+	new_src = src;
+	while (*new_src)
+		new_src++;
+	dest = lp_alloc(sizeof(char), (new_src - src + 1));
+	if (!dest)
+		return (NULL);
+	new_src = dest;
+	while (*src)
+		*dest++ = *src++;
+	*dest = 0;
+	return ((char *)new_src);
+}

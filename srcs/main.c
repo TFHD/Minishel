@@ -3,82 +3,150 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 15:13:21 by sabartho          #+#    #+#             */
-/*   Updated: 2024/11/22 23:36:37 by sabartho         ###   ########.fr       */
+/*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
+/*   Updated: 2024/12/04 15:18:01 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_all(char *line, char **args, char *prompt_line)
+const char	*get_token_type_name(t_token_type type)
 {
-	int	i;
+	static const char	*token_type_names[] = {
+		"TOKEN_COMMAND",
+		"TOKEN_ARGUMENT",
+		"TOKEN_PIPE",
+		"TOKEN_LOGICAL_AND",
+		"TOKEN_LOGICAL_OR",
+		"TOKEN_SUBSHELL_OPEN",
+		"TOKEN_SUBSHELL_CLOSE",
+		"TOKEN_REDIRECT_IN",
+		"TOKEN_REDIRECT_OUT",
+		"TOKEN_APPEND_OUT",
+		"TOKEN_HEREDOC",
+		"TOKEN_END"
+	};
 
-	i = 0;
-	if (args)
+	if (type >= 0 && type <= TOKEN_END)
+		return (token_type_names[type]);
+	return ("UNKNOWN");
+}
+
+void	print_tokens(t_token *head)
+{
+	t_token	*current;
+	int		index;
+
+	index = 0;
+	if (!head)
 	{
-		while (args[i])
-			free(args[i++]);
-		free(args);
+		printf("No tokens to display.\n");
+		return ;
 	}
-	if (line)
-		free(line);
-	if (prompt_line)
-		free(prompt_line);
-}
-
-void	reset_prompt(int sig)
-{
-	(void)sig;
-    printf("\n");
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-}
-
-char	*get_prompt_line(char *line, char cwd[256])
-{
-	char	*join;
-
-	join = ft_strsjoin(0, 3, line, cwd, "\e[0m$ ");
-	return (join);
-}
-
-void	on_prompt(char **envp, char *prompt_line)
-{
-	char	**args;
-	char	cwd[256];
-	char	*line;
-
-	line = readline(prompt_line);
-	while (line != NULL)
+	current = head;
+	while (current)
 	{
-		args = NULL;
-		if (!parse(&args, line))
-			envp = function_manager(args, envp, line);
-		free_all(line, args, prompt_line);
-		getcwd(cwd, sizeof(cwd));
-		prompt_line = get_prompt_line(PROMPT_LINE, cwd);
-		line = readline(prompt_line);
+		printf("Token %d: Type = %s, Value = %s\n",
+			index++,
+			get_token_type_name(current->type),
+			current->value
+			);
+		current = current->next;
 	}
-	//free_all(0, envp, 0);
-	free(prompt_line);
 }
 
-int	main(int ac, char **av, char **envp)
+static void	__print_node(t_ast *ast, char *x)
 {
-	char	cwd[256];
+	static const char		*token_redir[4] = {"<", ">", ">>", "<<"};
+	static char				**token = NULL;
+	static t_redirection	*red = NULL;
 
-	(void)ac;
-	(void)av;
-	getcwd(cwd, sizeof(cwd));
+	if (ast && ast->type == TOKEN_PIPE)
+		printf("%s%s\n", x, "|");
+	else if (ast && ast->type == TOKEN_LOGICAL_AND)
+		printf("%s%s\n", x, "&&");
+	else if (ast && ast->type == TOKEN_LOGICAL_OR)
+		printf("%s%s\n", x, "||");
+	else
+	{
+		if (ast->cmd)
+			token = ast->cmd->cmds_args;
+		if (ast->cmd && ast->cmd->redirection)
+			red = ast->cmd->redirection;
+		printf("%s", x);
+		while (token && *token)
+			printf("{%s} ", *token++);
+		printf("\n");
+		printf("%s", x);
+		while (red)
+		{
+			printf("[%s] {%s} ", token_redir[red->type - TOKEN_REDIRECT_IN],
+				red->redirect);
+			red = red->next;
+		}
+		printf("\n");
+	}
+}
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTRAP, SIG_IGN);
-	signal(SIGINT, reset_prompt);
-	on_prompt(envp, get_prompt_line(PROMPT_LINE, cwd));
-	printf("exit\n");
-	return (0);
+void	__print_tree(t_ast *ast, int tab)
+{
+	char	*t;
+
+	if (!ast)
+		return ;
+	__print_tree(ast->left, tab + 8);
+	t = calloc(tab + 1, 1);
+	if (t)
+		memset(t, ' ', tab);
+	__print_node(ast, t);
+	free(t);
+	__print_tree(ast->right, tab + 8);
+}
+
+/*
+	TODO
+	rl_outstream = stderr;
+	fprintf();
+	IF PIPE IN AST -> LEFT OR RIGHT NOT PIPE NOR CMD == SUBSHELL
+*/
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_ast		*ast;
+	t_env_list	*env_list;
+	t_token		*tokens;
+	t_token		*cpy_tokens;
+	char		*input;
+	char		*prompt;
+
+	(void) argc;
+	(void) argv;
+	env_list = copy_env(envp);
+	print_header();
+	while (1)
+	{
+		prompt = get_prompt();
+		input = readline(prompt);
+		add_history(input);
+		if (!input)
+			break ;
+		lp_free(prompt);
+		tokens = tokenize_input(input);
+		cpy_tokens = tokens;
+		parsing_quote(&tokens);
+		//expand_tokens(&tokens, env_list);
+		ast = create_ast(&tokens);
+		print_tokens(cpy_tokens);
+		printf("\n-----------------------------\n\n");
+		__print_tree(ast, 0);
+		free_ast(ast);
+		free_tokens(cpy_tokens);
+		free(input);
+	}
+	if (!input)
+		lp_free(prompt);
+	free_env_list(env_list);
+	rl_clear_history();
 }

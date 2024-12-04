@@ -19,12 +19,11 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				parsing/token/token_list.c \
 				parsing/token/token_parser_utils.c \
 				parsing/token/token_parser.c \
-				parsing/quotes/parsing_quote.c \
-				parsing/expand/expand.c \
 				shell/env/create_env.c \
 				shell/env/env_list.c \
 				shell/prompt/prompt_builder.c \
 				shell/prompt/prompt.c \
+				parsing/quotes/parsing_quote.c \
 				main.c \
 			
 OBJS		:=	$(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))

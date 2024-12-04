@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 21:57:05 by sabartho         ###   ########.fr       */
+/*   Created: 2024/10/09 00:03:25 by albernar          #+#    #+#             */
+/*   Updated: 2024/10/09 00:22:52 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "shell.h"
-# include "token.h"
-# include "ast.h"
-# include "../lib/libft/libft.h"
-# include "../srcs/leak_protector/leak_protector.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+#include "libft.h"
 
-#endif
+void	ft_putnbr_fd(int n, int fd)
+{
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(-n, fd);
+	}
+	else
+	{
+		if (n > 9)
+			ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd(n % 10 + '0', fd);
+	}
+}

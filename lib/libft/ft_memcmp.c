@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 21:57:05 by sabartho         ###   ########.fr       */
+/*   Created: 2024/10/07 22:45:18 by albernar          #+#    #+#             */
+/*   Updated: 2024/10/07 22:49:47 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "shell.h"
-# include "token.h"
-# include "ast.h"
-# include "../lib/libft/libft.h"
-# include "../srcs/leak_protector/leak_protector.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
+#include "libft.h"
 
-#endif
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	int	result;
+
+	result = 0;
+	while (n && *(unsigned char *)s1 == *(unsigned char *)s2)
+	{
+		s1++;
+		s2++;
+		n--;
+	}
+	if (n)
+		result = (*(unsigned char *)s1 - *(unsigned char *)s2);
+	return (result);
+}
