@@ -6,11 +6,39 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/04 15:18:01 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/12/15 00:33:55 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "minishell.h"
+#include "shell.h"
+#include <readline/readline.h>
+#include <signal.h>
+#include <unistd.h>
+
+int	g_recieved = 0;
+
+void	signal2(int signal)
+{
+	if (signal == SIGINT)
+	{
+		printf("\n");
+		exit(130);
+	}
+}
+
+void signal_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+		g_recieved = 130;
+	}
+}
 
 const char	*get_token_type_name(t_token_type type)
 {
@@ -112,41 +140,62 @@ void	__print_tree(t_ast *ast, int tab)
 	IF PIPE IN AST -> LEFT OR RIGHT NOT PIPE NOR CMD == SUBSHELL
 */
 
+t_data	*init_data()
+{
+	t_data	*data;
+
+	data = lp_alloc(sizeof(t_data), 1);
+	data->env = 0;
+	data->token = 0;
+	data->exit_code = 0;
+	return (data);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_ast		*ast;
-	t_env_list	*env_list;
-	t_token		*tokens;
 	t_token		*cpy_tokens;
 	char		*input;
 	char		*prompt;
+	t_data		*data;
 
 	(void) argc;
 	(void) argv;
-	env_list = copy_env(envp);
-	print_header();
+	print_header(BLACK_TEXT_WHITE_BG);
+	data = init_data();
+	data->env = copy_env(envp);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		prompt = get_prompt();
 		input = readline(prompt);
+		if (g_recieved)
+		{
+			data->exit_code = g_recieved;
+			g_recieved = 0;
+		}
 		add_history(input);
 		if (!input)
 			break ;
 		lp_free(prompt);
-		tokens = tokenize_input(input);
-		cpy_tokens = tokens;
-		parsing_quote(&tokens);
-		//expand_tokens(&tokens, env_list);
-		ast = create_ast(&tokens);
-		print_tokens(cpy_tokens);
-		printf("\n-----------------------------\n\n");
-		__print_tree(ast, 0);
-		free_ast(ast);
-		free_tokens(cpy_tokens);
+		data->token = tokenize_input(input);
+		if (data->token)
+		{
+			cpy_tokens = data->token;
+			parsing_quote(&data->token, data);
+			data->ast = create_ast(&data->token);
+			print_tokens(cpy_tokens);
+			printf("\n-----------------------------\n\n");
+			__print_tree(data->ast, 0);
+			exec(data->ast, 0, &data);
+			free_ast(data->ast);
+			free_tokens(cpy_tokens);
+		}
 		free(input);
 	}
 	if (!input)
 		lp_free(prompt);
-	free_env_list(env_list);
+	free_env_list(data->env);
 	rl_clear_history();
+	printf("exit\n");
 }

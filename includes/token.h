@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 04:32:30 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/03 22:30:38 by sabartho         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:42:15 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,5 @@ t_token			*tokenize_input(const char *input);
 
 // Token Error
 int				validate_token(t_token *token);
-
-
-void	parsing_quote(t_token **token);
 
 #endif

@@ -23,8 +23,19 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				parsing/expand/expand.c \
 				shell/env/create_env.c \
 				shell/env/env_list.c \
+				shell/env/env_utils.c \
 				shell/prompt/prompt_builder.c \
 				shell/prompt/prompt.c \
+				shell/builtins/exec.c \
+				shell/builtins/exec_utils.c \
+				shell/builtins/builtins.c \
+				shell/builtins/pwd.c \
+				shell/builtins/cd.c \
+				shell/builtins/echo.c \
+				shell/builtins/export.c \
+				shell/builtins/unset.c \
+				shell/builtins/exit.c \
+				shell/builtins/env.c \
 				main.c \
 			
 OBJS		:=	$(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))
@@ -62,7 +73,7 @@ ${NAME}: ${OBJS} ${LIB}
 	@printf "$(_BOLD)$(NAME)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n\n"
 
 ${LIB}:
-	@printf "$(_BOLD)$(_UNDER)$(_YELLOW)                            LIBFT                           \n"
+	@printf "$(_BOLD)$(_UNDER)$(_YELLOW)                            LIBFT                           $(_RESET)\n"
 	@make --no-print-directory -C lib/libft
 
 ${OBJS_DIR}%.o: ${DIR}%.c
