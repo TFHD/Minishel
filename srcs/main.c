@@ -23,7 +23,7 @@ void	signal2(int signal)
 {
 	if (signal == SIGINT)
 	{
-		printf("\n");
+		printf("oui\n");
 		exit(130);
 	}
 }
@@ -187,6 +187,7 @@ int	main(int argc, char **argv, char **envp)
 			print_tokens(cpy_tokens);
 			printf("\n-----------------------------\n\n");
 			__print_tree(data->ast, 0);
+			printf("\n-----------------------------\n\n");
 			exec(data->ast, 0, &data);
 			free_ast(data->ast);
 			free_tokens(cpy_tokens);

@@ -49,5 +49,6 @@ int	echo(t_command *cmd)
 		printf("%s", cmd->cmds_args[i]);
 	if (option == 1)
 		printf("\n");
+	exit(0);
 	return (0);
 }

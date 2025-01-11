@@ -43,7 +43,6 @@ char	*get_executable_file(char *file_name, int i, int start_i)
 int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 {
 	*path_command = 0;
-	
 	if (is_builtins(data, cmd))
 		return (1);
 	if (!ft_strchr(*cmd->cmds_args, '/') && ft_strlen(*cmd->cmds_args))
@@ -68,31 +67,78 @@ int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 	return (0);
 }
 
-char	**env_list_to_char(t_env_list *head)
+int	redirect(t_command *cmd)
 {
-	char		**envp;
-	t_env_list	*current;
-	t_env_list	*tmp;
-	int			i;
+	int		fd;
+	int		savefd;
+	char	*in_out_file;
 
-	i = 1;
-	current = head->next;
-	while (current != head)
+	in_out_file = ft_strdup(cmd->redirection->redirect);
+	savefd = dup(STDOUT_FILENO);
+	if (cmd->redirection->type == TOKEN_REDIRECT_OUT)
 	{
-		current = current->next;
+		fd = open(in_out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			perror("Erreur lors de l'ouverture du fichier de sortie");
+			exit(1);
+		}
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+		free(in_out_file);
+		return (savefd);
+	}
+	if (cmd->redirection->type == TOKEN_REDIRECT_IN)
+	{
+		fd = open(in_out_file, O_RDONLY);
+		if (fd < 0)
+		{
+			perror("Erreur lors de l'ouverture du fichier d'entrée");
+			exit(1);
+		}
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+		free(in_out_file);
+		return (savefd);
+	}
+	if (cmd->redirection->type == TOKEN_APPEND_OUT)
+	{
+		fd = open(in_out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd < 0)
+		{
+			perror("Erreur lors de l'ouverture du fichier de sortie (append)");
+			exit(1);
+		}
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+		free(in_out_file);
+		return (savefd);
+	}
+	free(in_out_file);
+	return (0);
+}
+
+char **add_path(char **env)
+{
+	char	**env_cpy;
+	int		i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	env_cpy = malloc(sizeof(char *) * (i + 2));
+	i = 0;
+	while (env[i])
+	{
+		env_cpy[i] = ft_strdup(env[i]);
 		i++;
 	}
-	envp = malloc(sizeof(char *) * i + 1);
-	current = head->next;
+	env_cpy[i++] = ft_strdup("PATH=/home/sacha/Desktop/42/Minishell");
+	env_cpy[i] = 0;
 	i = 0;
-	while (current != head)
-	{
-		tmp = current;
-		current = current->next;
-		envp[i++] = ft_strdup(tmp->content);
-	}
-	envp[i] = 0;
-	return (envp);
+	while (env[i])
+		free(env[i++]);
+	return (env_cpy);
 }
 
 void	exec_order(t_ast *ast, t_data *data)
@@ -102,17 +148,31 @@ void	exec_order(t_ast *ast, t_data *data)
 	char	*path_command;
 	char	**env;
 	int		i;
+	int		save_stdout;
 
 	status = 0;
 	i = 0;
+	/*if (ast->type == TOKEN_PIPE)
+	{
+		printf("left : %s\n", *ast->left->cmd->cmds_args);
+		printf("right : %s\n", *ast->right->cmd->cmds_args);
+	}*/
+	if (ast->cmd->redirection)
+		save_stdout = redirect(ast->cmd);
 	if (*ast->cmd->cmds_args && !cmd_exist(&path_command, data, ast->cmd))
 	{
-		env = env_list_to_char(data->env);
+		env = env_list_to_char(data->env, 0);
 		pid = fork();
 		if (pid == -1)
 			return ;
 		else if (pid == 0 && path_command)
 		{
+			if (get_env(data->env, "PATH") == NULL)
+				env = add_path(env);
+			i = 0;
+			while (env[i])
+				printf("%s\n", env[i++]);
+			i = 0;
 			signal(SIGINT, signal2);
 			execve(path_command, ast->cmd->cmds_args, env);
 		}
@@ -128,6 +188,11 @@ void	exec_order(t_ast *ast, t_data *data)
 			free(env[i++]);
 		free(env);
 		free(path_command);
+	}
+	if (ast->cmd->redirection)
+	{
+		dup2(save_stdout, STDOUT_FILENO);
+		close(save_stdout);
 	}
 }
 
@@ -145,4 +210,3 @@ void	exec(t_ast *ast, int tab, t_data **data)
 	free(t);
 	exec(ast->right, tab + 8, data);
 }
-

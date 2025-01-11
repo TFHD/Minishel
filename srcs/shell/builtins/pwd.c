@@ -20,8 +20,10 @@ int	pwd(t_command *cmd)
 	{
 		no_option(cmd);
 		printf("pwd: usage: pwd\n");
+		exit(2);
 		return(2);
 	}
 	printf("%s\n", getcwd(cwd, 1024));
+	exit(0);
 	return (0);
 }

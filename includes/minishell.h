@@ -22,7 +22,10 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <stdio.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <limits.h>
 
 extern int	g_recieved;
 
@@ -45,10 +48,15 @@ char	*set_path(char *paths, char **path, char *file_name, int i);
 void	not_command(char **path);
 int		is_builtins(t_data *data, t_command *cmd);
 
-char	**env_list_to_char(t_env_list *head);
+char	**env_list_to_char(t_env_list *head, char *remove);
 void	no_option(t_command *cmd);
 int		pwd(t_command *cmd);
 int		env(t_command *cmd, t_data *data);
 int		echo(t_command *cmd);
+int		redirect(t_command *cmd);
+int		ft_exit(t_command *cmd);
+int		cd(t_command *cmd, t_data *data);
+void	set_env(t_env_list *env_list, char *env_name, char *new);
+int		unset(t_command *cmd, t_data **data);
 
 #endif
