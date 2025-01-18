@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 08:45:27 by albernar          #+#    #+#             */
-/*   Updated: 2024/11/28 15:23:59 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:40:39 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	get_operator_type_onechar(const char *input, t_token_type *type)
 int	get_operator_type(const char *input, t_token_type *type)
 {
 	int	result;
-
+	
 	result = get_operator_type_twochar(input, type);
 	if (result != -1)
 		return (result);

@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 05:30:27 by sabartho          #+#    #+#             */
-/*   Updated: 2024/12/14 05:59:24 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:12:28 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ static int	option_echo(t_command *cmd)
 
 	i = 1;
 	j = 1;
-	while ((cmd->cmds_args)[i] && (ft_strncmp((cmd->cmds_args)[i], "-n", 2) == 0))
+	while ((cmd->cmds_args)[i]
+			&& (ft_strncmp((cmd->cmds_args)[i], "-n", 2) == 0))
 	{
 		while ((cmd->cmds_args)[i][j] && (cmd->cmds_args)[i][j] == 'n')
 			j++;
 		if ((cmd->cmds_args)[i][j] == 0)
 			i++;
-		else 
+		else
 			return (1);
 		j = 1;
 	}

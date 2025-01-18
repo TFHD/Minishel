@@ -46,6 +46,7 @@ ft_strsjoin.c \
 ft_strncpy.c \
 ft_iswhitespace.c \
 ft_strncat.c \
+get_next_line.c \
 
 OBJS = $(SRCS:.c=.o)
 NAME = libft.a

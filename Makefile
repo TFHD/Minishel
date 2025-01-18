@@ -36,6 +36,14 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				shell/builtins/unset.c \
 				shell/builtins/exit.c \
 				shell/builtins/env.c \
+				shell/builtins/redirection.c \
+				shell/pipex/main_bonus.c \
+				shell/pipex/pipex.c \
+				shell/pipex/pipex_utils.c \
+				shell/pipex/process_utils.c \
+				shell/pipex/utils.c \
+				shell/pipex/here_doc_bonus.c \
+				shell/pipex/here_doc_utils_bonus.c \
 				main.c \
 			
 OBJS		:=	$(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))

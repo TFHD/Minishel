@@ -6,12 +6,13 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2024/12/15 00:10:16 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/17 00:24:30 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "token.h"
+#include <unistd.h>
 
 char	*get_executable_file(char *file_name, int i, int start_i)
 {
@@ -36,21 +37,17 @@ char	*get_executable_file(char *file_name, int i, int start_i)
 		}
 		i++;
 	}
-	not_command(&path);
 	return (path);
 }
 
 int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 {
 	*path_command = 0;
-	if (is_builtins(data, cmd))
-		return (1);
 	if (!ft_strchr(*cmd->cmds_args, '/') && ft_strlen(*cmd->cmds_args))
 		*path_command = get_executable_file(*cmd->cmds_args, 0, 0);
 	else if (ft_strchr(*cmd->cmds_args, '/') && ft_strlen(*cmd->cmds_args))
 		*path_command = ft_strdup(*cmd->cmds_args);
-	else
-		not_command(path_command);
+	not_command(path_command);
 	if (!*path_command)
 	{
 		data->exit_code = 127;
@@ -67,58 +64,7 @@ int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 	return (0);
 }
 
-int	redirect(t_command *cmd)
-{
-	int		fd;
-	int		savefd;
-	char	*in_out_file;
-
-	in_out_file = ft_strdup(cmd->redirection->redirect);
-	savefd = dup(STDOUT_FILENO);
-	if (cmd->redirection->type == TOKEN_REDIRECT_OUT)
-	{
-		fd = open(in_out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			perror("Erreur lors de l'ouverture du fichier de sortie");
-			exit(1);
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-		free(in_out_file);
-		return (savefd);
-	}
-	if (cmd->redirection->type == TOKEN_REDIRECT_IN)
-	{
-		fd = open(in_out_file, O_RDONLY);
-		if (fd < 0)
-		{
-			perror("Erreur lors de l'ouverture du fichier d'entrée");
-			exit(1);
-		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-		free(in_out_file);
-		return (savefd);
-	}
-	if (cmd->redirection->type == TOKEN_APPEND_OUT)
-	{
-		fd = open(in_out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd < 0)
-		{
-			perror("Erreur lors de l'ouverture du fichier de sortie (append)");
-			exit(1);
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-		free(in_out_file);
-		return (savefd);
-	}
-	free(in_out_file);
-	return (0);
-}
-
-char **add_path(char **env)
+char	**add_path(char **env)
 {
 	char	**env_cpy;
 	int		i;
@@ -141,6 +87,23 @@ char **add_path(char **env)
 	return (env_cpy);
 }
 
+void	mini_pipe(t_data *data)
+{
+	int	i;
+	
+	printf("ok : %d\n", data->pipe_nb);
+	if (data->pipe_nb == 0)
+		i = 1;
+	else
+		i = 0;
+    close(data->pipe[data->pipe_nb]);
+	if (i == 1)
+		dup2(data->pipe[i], STDOUT_FILENO);
+	else
+		dup2(data->pipe[i], STDIN_FILENO);
+    close(data->pipe[i]);
+}
+
 void	exec_order(t_ast *ast, t_data *data)
 {
 	int		status;
@@ -152,13 +115,12 @@ void	exec_order(t_ast *ast, t_data *data)
 
 	status = 0;
 	i = 0;
-	/*if (ast->type == TOKEN_PIPE)
-	{
-		printf("left : %s\n", *ast->left->cmd->cmds_args);
-		printf("right : %s\n", *ast->right->cmd->cmds_args);
-	}*/
-	if (ast->cmd->redirection)
-		save_stdout = redirect(ast->cmd);
+	printf("nb pipe : %d\n", data->pipe_nb);
+	printf("command : %s\n", *ast->cmd->cmds_args);
+	if (data->pipe_nb != -1)
+		mini_pipe(data);
+	if (is_builtins(data, ast->cmd))
+		return ;
 	if (*ast->cmd->cmds_args && !cmd_exist(&path_command, data, ast->cmd))
 	{
 		env = env_list_to_char(data->env, 0);
@@ -167,13 +129,11 @@ void	exec_order(t_ast *ast, t_data *data)
 			return ;
 		else if (pid == 0 && path_command)
 		{
+			if (ast->cmd->redirection)
+				save_stdout = redirect(ast->cmd);
 			if (get_env(data->env, "PATH") == NULL)
 				env = add_path(env);
-			i = 0;
-			while (env[i])
-				printf("%s\n", env[i++]);
-			i = 0;
-			signal(SIGINT, signal2);
+			signal(SIGINT, SIG_DFL);
 			execve(path_command, ast->cmd->cmds_args, env);
 		}
 		else
@@ -188,25 +148,49 @@ void	exec_order(t_ast *ast, t_data *data)
 			free(env[i++]);
 		free(env);
 		free(path_command);
+		if (ast->cmd->redirection)
+			close_dup(save_stdout);
 	}
-	if (ast->cmd->redirection)
-	{
-		dup2(save_stdout, STDOUT_FILENO);
-		close(save_stdout);
-	}
+	if (data->pipe_nb != -1)
+		close(data->pipe[data->pipe_nb]);
 }
 
-void	exec(t_ast *ast, int tab, t_data **data)
+int	fork_for_sub_process(t_ast *ast, t_data ***data)
 {
-	char	*t;
+	pid_t	pid;
+	int		status;
 
+	status = 0;
+	if (ast->type == TOKEN_PIPE)
+		pipe((*(*data))->pipe);
+	pid = fork();
+	if (pid == -1)
+		return (1);
+	else if (pid == 0)
+	{
+		if (ast->type == TOKEN_PIPE)
+			(*(*data))->pipe_nb = 0;
+		exec(ast->left, *data);
+		exit((**data)->exit_code);
+	}
+	else
+		waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		(**data)->exit_code = WEXITSTATUS(status);
+	return (1);
+}
+
+void	exec(t_ast *ast, t_data **data)
+{
 	if (!ast)
 		return ;
-	exec(ast->left, tab + 8, data);
-	t = calloc(tab + 1, 1);
-	if (t)
-		memset(t, ' ', tab);
+	if (ast->type == TOKEN_LOGICAL_AND || ast->type == TOKEN_LOGICAL_OR || ast->type == TOKEN_PIPE)
+		fork_for_sub_process(ast, &data);
 	exec_order(ast, *data);
-	free(t);
-	exec(ast->right, tab + 8, data);
+	if (((*data)->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND) || ((*data)->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR) || (ast->type == TOKEN_PIPE))
+	{
+		if (ast->type == TOKEN_PIPE)
+			(*data)->pipe_nb = 1;
+		exec(ast->right, data);
+	}
 }

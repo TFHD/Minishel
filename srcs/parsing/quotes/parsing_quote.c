@@ -6,11 +6,35 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:59:23 by sabartho          #+#    #+#             */
-/*   Updated: 2024/12/09 20:12:00 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:50:43 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "token.h"
+
+
+void	pre_parsing(t_data **data)
+{
+	t_token *token;
+	t_token *token_tmp;
+	char	*str;
+
+	token = (*data)->token;
+	token_tmp = token;
+	str = ft_strdup(token->value);
+	token = token->next;
+	while (token->value)
+	{
+		str = ft_strsjoin(0b100, 3, str, " ", token->value);
+		token = token->next;
+	}
+	token = token_tmp;
+	free_tokens((*data)->token);
+	(*data)->token = tokenize_input(str);
+	free(str);
+}
+
 
 char	*get_text_inside_quote(t_token *token, char quote, int *i, t_data *data)
 {
@@ -21,7 +45,7 @@ char	*get_text_inside_quote(t_token *token, char quote, int *i, t_data *data)
 	start_i = *i;
 	while (token->value[*i] != quote)
 		(*i)++;
-	sub_string = ft_substr(token->value, start_i, *i - start_i);
+	sub_string = ft_substr(token->value, start_i - data->type_parse, *i - start_i + (2 * data->type_parse));
 	extends(&sub_string, quote, token->value[*i], data);
 	(*i)++;
 	return (sub_string);

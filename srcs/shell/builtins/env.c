@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 04:23:56 by sabartho          #+#    #+#             */
-/*   Updated: 2024/12/14 22:46:02 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:16:26 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	env(t_command *cmd, t_data *data)
 {
-	int i;
-	char**env;
+	int		i;
+	char	**env;
 
 	i = 0;
 	if (*(cmd->cmds_args + 1))

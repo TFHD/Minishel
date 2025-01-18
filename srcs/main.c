@@ -6,13 +6,14 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/15 00:33:55 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/17 00:11:15 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 #include "minishell.h"
 #include "shell.h"
+#include "token.h"
 #include <readline/readline.h>
 #include <signal.h>
 #include <unistd.h>
@@ -23,19 +24,19 @@ void	signal2(int signal)
 {
 	if (signal == SIGINT)
 	{
-		printf("oui\n");
-		exit(130);
+		printf("\n");
+		g_recieved = 130;
 	}
 }
 
-void signal_handler(int signal)
+void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		g_recieved = 130;
 	}
 }
@@ -148,6 +149,7 @@ t_data	*init_data()
 	data->env = 0;
 	data->token = 0;
 	data->exit_code = 0;
+	data->pipe_nb = -1;
 	return (data);
 }
 
@@ -160,7 +162,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	print_header(BLACK_TEXT_WHITE_BG);
+	//print_header(BLACK_TEXT_WHITE_BG);
 	data = init_data();
 	data->env = copy_env(envp);
 	signal(SIGINT, signal_handler);
@@ -179,16 +181,20 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		lp_free(prompt);
 		data->token = tokenize_input(input);
-		if (data->token)
+		if (data->token && data->token->type != TOKEN_END)
 		{
+			data->type_parse = 1;
+			parsing_quote(&data->token, data);
+			pre_parsing(&data);
 			cpy_tokens = data->token;
+			data->type_parse = 0;
 			parsing_quote(&data->token, data);
 			data->ast = create_ast(&data->token);
 			print_tokens(cpy_tokens);
 			printf("\n-----------------------------\n\n");
 			__print_tree(data->ast, 0);
 			printf("\n-----------------------------\n\n");
-			exec(data->ast, 0, &data);
+			exec(data->ast, &data);
 			free_ast(data->ast);
 			free_tokens(cpy_tokens);
 		}

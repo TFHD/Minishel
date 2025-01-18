@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 19:46:43 by albernar          #+#    #+#             */
-/*   Updated: 2024/12/06 14:38:23 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:59:47 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,23 @@ char	**env_list_to_char(t_env_list *head, char *remove)
 	}
 	envp[i] = 0;
 	return (envp);
+}
+
+int	get_index_env(char **env, char *search)
+{
+	int	i;
+	int	find;
+
+
+	i = 0;
+	find = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], search, ft_strlen(search)) == 0)
+			find = 1;
+		i++;
+	}
+	if (find == 1)
+		return (i);
+	return (-1);
 }
