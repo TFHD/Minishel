@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:21:45 by albernar          #+#    #+#             */
-/*   Updated: 2024/11/29 11:05:28 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/27 07:03:52 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static t_ast	*create_ast_node(t_token **token)
 	t_ast	*node;
 
 	node = lp_alloc(sizeof(t_ast), 1);
-	if ((*token)->type >= TOKEN_REDIRECT_IN && (*token)->type <= TOKEN_HEREDOC)
-		(*token)->type = TOKEN_ARGUMENT;
 	node->type = (*token)->type;
 	node->cmd = command_builder(token);
 	if (node->type >= TOKEN_PIPE && node->type <= TOKEN_SUBSHELL_CLOSE)
@@ -28,7 +26,7 @@ static t_ast	*create_ast_node(t_token **token)
 	return (node);
 }
 
-t_ast	*create_ast(t_token	**token)
+t_ast	*create_ast(t_token **token)
 {
 	t_ast	*root;
 	t_ast	*node;
