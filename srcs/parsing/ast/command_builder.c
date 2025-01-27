@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:39:20 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 07:06:35 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/27 08:46:26 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_command	*command_builder(t_token **token)
 	while ((*token)->type != TOKEN_END && !((*token)->type >= TOKEN_PIPE
 			&& (*token)->type <= TOKEN_SUBSHELL_CLOSE))
 	{
-		if ((*token)->type == TOKEN_HEREDOC)
+		if ((*token)->type >= TOKEN_REDIRECT_IN && (*token)->type <= TOKEN_HEREDOC)
 		{
 			add_redirect_node(&command->redirection, *token);
 			*token = (*token)->next;

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 08:44:01 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/24 18:21:47 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 08:48:25 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_token	*tokenize_input(const char *input)
 
 	__null_tokens(&head, &new_token);
 	i = 0;
-	while (input[i])
+	while (input && input[i])
 	{
 		skip_whitespaces(input, &i);
 		if (!input[i])

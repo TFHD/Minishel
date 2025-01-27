@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:28:39 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 07:09:58 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/27 08:45:49 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	add_ast_node(t_ast **root, t_ast *node)
 			add_ast_leaf(*root, node);
 		return ;
 	}
-	if (node->type == TOKEN_HEREDOC)
+	if (node->type >= TOKEN_REDIRECT_IN && node->type <= TOKEN_HEREDOC)
 	{
 		if (!(*root)->left)
 			(*root)->left = node;

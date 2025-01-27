@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:20:12 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/15 20:38:26 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 08:21:58 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static int	check_logical_operator(t_token *current, t_token *previous)
 			return (0);
 		}
 		if (!current->next || (current->next->type > TOKEN_ARGUMENT
-				&& current->next->type != TOKEN_SUBSHELL_OPEN))
+				&& current->next->type != TOKEN_SUBSHELL_OPEN
+				&& !(current->next->type >= TOKEN_REDIRECT_IN
+				&& current->next->type <= TOKEN_HEREDOC)))
 		{
 			fprintf(stderr, SYNTAX_ERROR "unexpected token near `%s'\n",
 				current->value);
@@ -44,7 +46,9 @@ static int	check_pipe(t_token *current, t_token *previous)
 			return (0);
 		}
 		if (!current->next || (current->next->type > TOKEN_ARGUMENT
-				&& current->next->type != TOKEN_SUBSHELL_OPEN))
+				&& current->next->type != TOKEN_SUBSHELL_OPEN
+				&& !(current->next->type >= TOKEN_REDIRECT_IN
+				&& current->next->type <= TOKEN_HEREDOC)))
 		{
 			fprintf(stderr, SYNTAX_ERROR "unexpected token near `%s'\n",
 				current->value);
