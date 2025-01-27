@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/17 00:11:15 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 07:11:26 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,10 @@ t_data	*init_data()
 	data->env = 0;
 	data->token = 0;
 	data->exit_code = 0;
-	data->pipe_nb = -1;
+	data->red_in = -1;
+	data->red_out = -1;
+	data->red_app = -1;
+	data->fd = 0;
 	return (data);
 }
 
@@ -183,12 +186,7 @@ int	main(int argc, char **argv, char **envp)
 		data->token = tokenize_input(input);
 		if (data->token && data->token->type != TOKEN_END)
 		{
-			data->type_parse = 1;
-			parsing_quote(&data->token, data);
-			pre_parsing(&data);
 			cpy_tokens = data->token;
-			data->type_parse = 0;
-			parsing_quote(&data->token, data);
 			data->ast = create_ast(&data->token);
 			print_tokens(cpy_tokens);
 			printf("\n-----------------------------\n\n");
@@ -198,6 +196,8 @@ int	main(int argc, char **argv, char **envp)
 			free_ast(data->ast);
 			free_tokens(cpy_tokens);
 		}
+		if (!data->token)
+			g_recieved = 2;
 		free(input);
 	}
 	if (!input)

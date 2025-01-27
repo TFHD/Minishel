@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:59:23 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/14 18:50:43 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 05:21:42 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,22 @@
 #include "token.h"
 
 
-void	pre_parsing(t_data **data)
+void	pre_parsing(t_token **token)
 {
-	t_token *token;
 	t_token *token_tmp;
 	char	*str;
 
-	token = (*data)->token;
-	token_tmp = token;
-	str = ft_strdup(token->value);
-	token = token->next;
-	while (token->value)
+	token_tmp = *token;
+	str = ft_strdup((*token)->value);
+	*token = (*token)->next;
+	while ((*token)->value)
 	{
-		str = ft_strsjoin(0b100, 3, str, " ", token->value);
-		token = token->next;
+		str = ft_strsjoin(0b100, 3, str, " ", (*token)->value);
+		*token = (*token)->next;
 	}
-	token = token_tmp;
-	free_tokens((*data)->token);
-	(*data)->token = tokenize_input(str);
+	(*token) = token_tmp;
+	free_tokens(*token);
+	*token = tokenize_input(str);
 	free(str);
 }
 
@@ -78,6 +76,8 @@ void	parsing_quote(t_token **token, t_data *data)
 	token_tmp = *token;
 	while ((*token)->value)
 	{
+		if (!ft_strncmp((*token)->value, "&&", 2))
+			break;
 		while (i < (int)ft_strlen((*token)->value))
 		{
 			quote = (*token)->value[i];

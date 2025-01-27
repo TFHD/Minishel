@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:15:30 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/13 16:07:53 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:25:01 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*set_path(char *paths, char **path, char *file_name, int i)
 	return (*path);
 }
 
-void	not_command(char **path)
+void	not_command(char **path, t_data *data)
 {
 	struct stat st;
 
@@ -44,6 +44,7 @@ void	not_command(char **path)
 		write(2, ": command not found\n", 21);
 		free(*path);
 		*path = NULL;
+		data->exit_code = 127;
 	}
 	else if (S_ISDIR(st.st_mode))
 	{
@@ -51,6 +52,7 @@ void	not_command(char **path)
 		write(2, ": Is a directory\n", 17);
 		free(*path);
 		*path = NULL;
+		data->exit_code = 126;
 	}
 }
 

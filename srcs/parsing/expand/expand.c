@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:59:51 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/13 21:37:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 02:00:54 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*replace(const char *str, char *expand, char *env_name, int i, t_data *data
 	replace = ft_substr(str, 0, i);
 	after_env = ft_substr(str, i + len_env_name, ft_strlen(str) - len_env_name);
 	if (*(env_name + 1) == '?')
-		replace = ft_strjoin(replace, get_exit_error_in_char(data->exit_code), 1, 0);
+		replace = ft_strjoin(replace, get_exit_error_in_char(data->exit_code), 1, 1);
 	else
 		replace = ft_strjoin(replace, expand, 1, 0);
 	replace = ft_strjoin(replace, after_env, 1, 1);

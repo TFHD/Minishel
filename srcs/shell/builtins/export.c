@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/13 21:01:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/23 22:50:47 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,14 +153,14 @@ void	add_export(char *str, t_data *data)
 	free(new_content);
 }
 
-int export(t_data *data, t_command *cmd)
+int export(t_data **data, t_command *cmd)
 {
 	int	i;
 	int	exit_error;
 
 	if (!cmd->cmds_args[1])
 	{
-		sort_env((data)->env);
+		sort_env((*data)->env);
 		return (0);
 	}
 	i = 0;
@@ -174,7 +174,7 @@ int export(t_data *data, t_command *cmd)
 			write(2, "': not a valid identifier\n", 26);
 			exit_error = 1;
 		}
-		add_export(*(cmd->cmds_args + i), (data));
+		add_export(*(cmd->cmds_args + i), (*data));
 	}
 	return (exit_error);
 }

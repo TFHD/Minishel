@@ -6,21 +6,23 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/17 00:24:30 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 07:15:25 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ast.h"
 #include "minishell.h"
 #include "token.h"
-#include <unistd.h>
 
-char	*get_executable_file(char *file_name, int i, int start_i)
+char	*get_executable_file(char *file_name, int i, int start_i, t_data *data)
 {
 	char	*paths;
 	char	*path;
 	int		result;
 
-	paths = getenv("PATH");
+	paths = get_env(data->env, "PATH");
+	if (!paths)
+		paths = strdup("./");
 	result = 0;
 	while (*(paths + i) && !result)
 	{
@@ -43,16 +45,15 @@ char	*get_executable_file(char *file_name, int i, int start_i)
 int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 {
 	*path_command = 0;
-	if (!ft_strchr(*cmd->cmds_args, '/') && ft_strlen(*cmd->cmds_args))
-		*path_command = get_executable_file(*cmd->cmds_args, 0, 0);
+	if (get_env(data->env, "PATH") == NULL && !ft_strchr(*cmd->cmds_args, '/'))
+		*path_command = ft_strjoin("./", *cmd->cmds_args, 0, 0);
+	else if (!ft_strchr(*cmd->cmds_args, '/') && ft_strlen(*cmd->cmds_args))
+		*path_command = get_executable_file(*cmd->cmds_args, 0, 0, data);
 	else if (ft_strchr(*cmd->cmds_args, '/') && ft_strlen(*cmd->cmds_args))
 		*path_command = ft_strdup(*cmd->cmds_args);
-	not_command(path_command);
+	not_command(path_command, data);
 	if (!*path_command)
-	{
-		data->exit_code = 127;
 		return (1);
-	}
 	if (access(*path_command, X_OK))
 	{
 		perror(*path_command);
@@ -79,29 +80,12 @@ char	**add_path(char **env)
 		env_cpy[i] = ft_strdup(env[i]);
 		i++;
 	}
-	env_cpy[i++] = ft_strdup("PATH=/home/sacha/Desktop/42/Minishell");
+	env_cpy[i++] = ft_strdup("PATH=.");
 	env_cpy[i] = 0;
 	i = 0;
 	while (env[i])
 		free(env[i++]);
 	return (env_cpy);
-}
-
-void	mini_pipe(t_data *data)
-{
-	int	i;
-	
-	printf("ok : %d\n", data->pipe_nb);
-	if (data->pipe_nb == 0)
-		i = 1;
-	else
-		i = 0;
-    close(data->pipe[data->pipe_nb]);
-	if (i == 1)
-		dup2(data->pipe[i], STDOUT_FILENO);
-	else
-		dup2(data->pipe[i], STDIN_FILENO);
-    close(data->pipe[i]);
 }
 
 void	exec_order(t_ast *ast, t_data *data)
@@ -111,14 +95,9 @@ void	exec_order(t_ast *ast, t_data *data)
 	char	*path_command;
 	char	**env;
 	int		i;
-	int		save_stdout;
 
 	status = 0;
 	i = 0;
-	printf("nb pipe : %d\n", data->pipe_nb);
-	printf("command : %s\n", *ast->cmd->cmds_args);
-	if (data->pipe_nb != -1)
-		mini_pipe(data);
 	if (is_builtins(data, ast->cmd))
 		return ;
 	if (*ast->cmd->cmds_args && !cmd_exist(&path_command, data, ast->cmd))
@@ -129,10 +108,6 @@ void	exec_order(t_ast *ast, t_data *data)
 			return ;
 		else if (pid == 0 && path_command)
 		{
-			if (ast->cmd->redirection)
-				save_stdout = redirect(ast->cmd);
-			if (get_env(data->env, "PATH") == NULL)
-				env = add_path(env);
 			signal(SIGINT, SIG_DFL);
 			execve(path_command, ast->cmd->cmds_args, env);
 		}
@@ -148,49 +123,44 @@ void	exec_order(t_ast *ast, t_data *data)
 			free(env[i++]);
 		free(env);
 		free(path_command);
-		if (ast->cmd->redirection)
-			close_dup(save_stdout);
 	}
-	if (data->pipe_nb != -1)
-		close(data->pipe[data->pipe_nb]);
 }
 
-int	fork_for_sub_process(t_ast *ast, t_data ***data)
+void	rebuilt_command(t_ast *ast, t_data *data)
 {
-	pid_t	pid;
-	int		status;
+	char *input;
+	t_token *token;
+	int	i;
 
-	status = 0;
-	if (ast->type == TOKEN_PIPE)
-		pipe((*(*data))->pipe);
-	pid = fork();
-	if (pid == -1)
-		return (1);
-	else if (pid == 0)
-	{
-		if (ast->type == TOKEN_PIPE)
-			(*(*data))->pipe_nb = 0;
-		exec(ast->left, *data);
-		exit((**data)->exit_code);
-	}
-	else
-		waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		(**data)->exit_code = WEXITSTATUS(status);
-	return (1);
+	i = 1;
+	input = ft_strdup(ast->cmd->cmds_args[0]);
+	while (ast->cmd->cmds_args[i])
+		input = ft_strsjoin(0b100, 3, input, " ", ast->cmd->cmds_args[i++]);
+	free_command(ast->cmd);
+	token = tokenize_input(input);
+	data->type_parse = 1;
+	parsing_quote(&token, data);
+	pre_parsing(&token);
+	data->type_parse = 0;
+	parsing_quote(&token, data);
+	ast->cmd = command_builder(&token);
+	free(input);
 }
 
 void	exec(t_ast *ast, t_data **data)
 {
 	if (!ast)
 		return ;
-	if (ast->type == TOKEN_LOGICAL_AND || ast->type == TOKEN_LOGICAL_OR || ast->type == TOKEN_PIPE)
-		fork_for_sub_process(ast, &data);
-	exec_order(ast, *data);
-	if (((*data)->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND) || ((*data)->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR) || (ast->type == TOKEN_PIPE))
+	if (ast->type == TOKEN_LOGICAL_AND || ast->type == TOKEN_LOGICAL_OR)
+		exec(ast->left, data);
+	if (ast->cmd->redirection)
+		redirect(ast, *data);
+	else
 	{
-		if (ast->type == TOKEN_PIPE)
-			(*data)->pipe_nb = 1;
-		exec(ast->right, data);
+		if (*ast->cmd->cmds_args)
+			rebuilt_command(ast, *data);
+		exec_order(ast, *data);
 	}
+	if (((*data)->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND) || ((*data)->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR))
+		exec(ast->right, data);
 }
