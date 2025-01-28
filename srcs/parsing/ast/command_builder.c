@@ -40,12 +40,12 @@ t_command	*command_builder(t_token **token)
 
 	command = lp_alloc(sizeof(t_command), 1);
 	size = 0;
-	command->redirection = NULL;
 	command->cmds_args = lp_alloc(sizeof(char *), get_command_len(*token) + 1);
 	while ((*token)->type != TOKEN_END && !((*token)->type >= TOKEN_PIPE
 			&& (*token)->type <= TOKEN_SUBSHELL_CLOSE))
 	{
-		if ((*token)->type >= TOKEN_REDIRECT_IN && (*token)->type <= TOKEN_HEREDOC)
+		if ((*token)->type >= TOKEN_REDIRECT_IN
+			&& (*token)->type <= TOKEN_HEREDOC)
 		{
 			add_redirect_node(&command->redirection, *token);
 			*token = (*token)->next;

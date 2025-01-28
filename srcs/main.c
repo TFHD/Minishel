@@ -215,10 +215,10 @@ int	main(int argc, char **argv, char **envp)
 		{
 			cpy_tokens = data->token;
 			data->ast = create_ast(&data->token);
-		//	print_tokens(cpy_tokens);
-		//	printf("\n-----------------------------\n\n");
-		//	__print_tree(data->ast, 0);
-		//	printf("\n-----------------------------\n\n");
+			print_tokens(cpy_tokens);
+			printf("\n-----------------------------\n\n");
+			__print_tree(data->ast, 0);
+			printf("\n-----------------------------\n\n");
 			exec(data->ast, &data);
 			if (data->fds != 0)
 				unlink_all_fds(&data);

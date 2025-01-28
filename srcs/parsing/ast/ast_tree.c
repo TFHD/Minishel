@@ -47,7 +47,7 @@ t_ast	*create_ast(t_token **token)
 			node = create_ast_node(token);
 		add_ast_node(&root, node);
 	}
-	if ((*token)->type == TOKEN_SUBSHELL_CLOSE)
+	if (*token && (*token)->type == TOKEN_SUBSHELL_CLOSE)
 		*token = (*token)->next;
 	return (root);
 }

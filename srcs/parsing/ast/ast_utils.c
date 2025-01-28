@@ -87,32 +87,17 @@ void	add_ast_node(t_ast **root, t_ast *node)
 		*root = node;
 		return ;
 	}
-	if (node->type == TOKEN_LOGICAL_AND || node->type == TOKEN_LOGICAL_OR)
+	if ((node->type == TOKEN_LOGICAL_AND || node->type == TOKEN_LOGICAL_OR)
+		&& (*root)->type <= TOKEN_ARGUMENT)
 	{
 		node->left = *root;
 		*root = node;
 		return ;
 	}
-	if (node->type <= TOKEN_ARGUMENT)
+	if (node->type <= TOKEN_ARGUMENT || node->is_subshell == 1)
 	{
-		if (!(*root)->right)
-			(*root)->right = node;
-		else
-			add_ast_leaf(*root, node);
-		return ;
-	}
-	if (node->type >= TOKEN_REDIRECT_IN && node->type <= TOKEN_HEREDOC)
-	{
-		if (!(*root)->left)
-			(*root)->left = node;
-		else if (!(*root)->right)
-			(*root)->right = node;
-		else
-			add_ast_leaf(*root, node);
-		return ;
-	}
-	if (node->is_subshell == 1)
 		add_ast_leaf(*root, node);
-	else
-		add_ast_branch(root, node);
+		return ;
+	}
+	add_ast_branch(root, node);
 }
