@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 04:23:56 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/23 22:51:34 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:48:48 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,15 @@ int	back_dir(char *dir, t_data **data)
 	{
 		tmp = get_env((*data)->env, "OLDPWD");
 		if (tmp)
-		{
 			set_dir(tmp, *data, 0);
+		else
+		{
+			write(2, "joyshell : cd : OLDPWD not set\n", 32);
+			return (1);
 		}
 		tmp = get_env((*data)->env, "PWD");
 		if (tmp)
-		{
 			printf("%s\n", tmp);
-		}
 		return (0);
 	}
 	return (set_dir(dir, *data, 0));

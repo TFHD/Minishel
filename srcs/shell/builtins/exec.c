@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/27 07:15:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:39:50 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,16 +134,19 @@ void	rebuilt_command(t_ast *ast, t_data *data)
 
 	i = 1;
 	input = ft_strdup(ast->cmd->cmds_args[0]);
-	while (ast->cmd->cmds_args[i])
+	while (input && ast->cmd->cmds_args && ast->cmd->cmds_args[i])
 		input = ft_strsjoin(0b100, 3, input, " ", ast->cmd->cmds_args[i++]);
-	free_command(ast->cmd);
-	token = tokenize_input(input);
-	data->type_parse = 1;
-	parsing_quote(&token, data);
-	pre_parsing(&token);
-	data->type_parse = 0;
-	parsing_quote(&token, data);
-	ast->cmd = command_builder(&token);
+	if (input)
+	{
+		free_command(ast->cmd);
+		token = tokenize_input(input);
+		data->type_parse = 1;
+		parsing_quote(&token, data);
+		pre_parsing(&token);
+		data->type_parse = 0;
+		parsing_quote(&token, data);
+		ast->cmd = command_builder(&token);
+	}
 	free(input);
 }
 
@@ -151,7 +154,7 @@ void	exec(t_ast *ast, t_data **data)
 {
 	if (!ast)
 		return ;
-	if (ast->type == TOKEN_LOGICAL_AND || ast->type == TOKEN_LOGICAL_OR)
+	if (ast->type == TOKEN_LOGICAL_AND || ast->type == TOKEN_LOGICAL_OR || ast->type == TOKEN_PIPE)
 		exec(ast->left, data);
 	if (ast->cmd->redirection)
 		redirect(ast, *data);
@@ -161,6 +164,6 @@ void	exec(t_ast *ast, t_data **data)
 			rebuilt_command(ast, *data);
 		exec_order(ast, *data);
 	}
-	if (((*data)->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND) || ((*data)->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR))
+	if (((*data)->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND) || ((*data)->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR) || (ast->type == TOKEN_PIPE))
 		exec(ast->right, data);
 }

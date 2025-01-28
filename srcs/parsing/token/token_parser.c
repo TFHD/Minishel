@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 08:44:01 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 08:48:25 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/28 03:57:39 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_token	*tokenize_input(const char *input)
 	}
 	new_token = create_token(TOKEN_END, NULL);
 	add_token(&head, new_token);
-	if (!validate_token(head))
-		return (NULL);
+	//if (!validate_token(head))
+	//	return (NULL);
 	return (head);
 }

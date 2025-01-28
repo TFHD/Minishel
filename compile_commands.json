@@ -1,0 +1,665 @@
+[
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/leak_protector/leak_protector.o",
+   "-c",
+   "srcs/leak_protector/leak_protector.c"
+  ],
+  "file": "srcs/leak_protector/leak_protector.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/leak_protector/leak_protector_list.o",
+   "-c",
+   "srcs/leak_protector/leak_protector_list.c"
+  ],
+  "file": "srcs/leak_protector/leak_protector_list.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/leak_protector/func/lp_strdup.o",
+   "-c",
+   "srcs/leak_protector/func/lp_strdup.c"
+  ],
+  "file": "srcs/leak_protector/func/lp_strdup.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/leak_protector/func/lp_strsjoin.o",
+   "-c",
+   "srcs/leak_protector/func/lp_strsjoin.c"
+  ],
+  "file": "srcs/leak_protector/func/lp_strsjoin.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/ast/ast_tree.o",
+   "-c",
+   "srcs/parsing/ast/ast_tree.c"
+  ],
+  "file": "srcs/parsing/ast/ast_tree.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/ast/ast_utils.o",
+   "-c",
+   "srcs/parsing/ast/ast_utils.c"
+  ],
+  "file": "srcs/parsing/ast/ast_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/ast/command_builder.o",
+   "-c",
+   "srcs/parsing/ast/command_builder.c"
+  ],
+  "file": "srcs/parsing/ast/command_builder.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/ast/redirection_list.o",
+   "-c",
+   "srcs/parsing/ast/redirection_list.c"
+  ],
+  "file": "srcs/parsing/ast/redirection_list.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/token/token_args.o",
+   "-c",
+   "srcs/parsing/token/token_args.c"
+  ],
+  "file": "srcs/parsing/token/token_args.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/token/token_error.o",
+   "-c",
+   "srcs/parsing/token/token_error.c"
+  ],
+  "file": "srcs/parsing/token/token_error.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/token/token_list.o",
+   "-c",
+   "srcs/parsing/token/token_list.c"
+  ],
+  "file": "srcs/parsing/token/token_list.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/token/token_parser_utils.o",
+   "-c",
+   "srcs/parsing/token/token_parser_utils.c"
+  ],
+  "file": "srcs/parsing/token/token_parser_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/token/token_parser.o",
+   "-c",
+   "srcs/parsing/token/token_parser.c"
+  ],
+  "file": "srcs/parsing/token/token_parser.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/quotes/parsing_quote.o",
+   "-c",
+   "srcs/parsing/quotes/parsing_quote.c"
+  ],
+  "file": "srcs/parsing/quotes/parsing_quote.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/parsing/expand/expand.o",
+   "-c",
+   "srcs/parsing/expand/expand.c"
+  ],
+  "file": "srcs/parsing/expand/expand.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/env/create_env.o",
+   "-c",
+   "srcs/shell/env/create_env.c"
+  ],
+  "file": "srcs/shell/env/create_env.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/env/env_list.o",
+   "-c",
+   "srcs/shell/env/env_list.c"
+  ],
+  "file": "srcs/shell/env/env_list.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/env/env_utils.o",
+   "-c",
+   "srcs/shell/env/env_utils.c"
+  ],
+  "file": "srcs/shell/env/env_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/prompt/prompt_builder.o",
+   "-c",
+   "srcs/shell/prompt/prompt_builder.c"
+  ],
+  "file": "srcs/shell/prompt/prompt_builder.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/prompt/prompt.o",
+   "-c",
+   "srcs/shell/prompt/prompt.c"
+  ],
+  "file": "srcs/shell/prompt/prompt.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/exec.o",
+   "-c",
+   "srcs/shell/builtins/exec.c"
+  ],
+  "file": "srcs/shell/builtins/exec.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/exec_utils.o",
+   "-c",
+   "srcs/shell/builtins/exec_utils.c"
+  ],
+  "file": "srcs/shell/builtins/exec_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/builtins.o",
+   "-c",
+   "srcs/shell/builtins/builtins.c"
+  ],
+  "file": "srcs/shell/builtins/builtins.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/pwd.o",
+   "-c",
+   "srcs/shell/builtins/pwd.c"
+  ],
+  "file": "srcs/shell/builtins/pwd.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/cd.o",
+   "-c",
+   "srcs/shell/builtins/cd.c"
+  ],
+  "file": "srcs/shell/builtins/cd.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/echo.o",
+   "-c",
+   "srcs/shell/builtins/echo.c"
+  ],
+  "file": "srcs/shell/builtins/echo.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/export.o",
+   "-c",
+   "srcs/shell/builtins/export.c"
+  ],
+  "file": "srcs/shell/builtins/export.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/unset.o",
+   "-c",
+   "srcs/shell/builtins/unset.c"
+  ],
+  "file": "srcs/shell/builtins/unset.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/exit.o",
+   "-c",
+   "srcs/shell/builtins/exit.c"
+  ],
+  "file": "srcs/shell/builtins/exit.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/env.o",
+   "-c",
+   "srcs/shell/builtins/env.c"
+  ],
+  "file": "srcs/shell/builtins/env.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/builtins/redirection.o",
+   "-c",
+   "srcs/shell/builtins/redirection.c"
+  ],
+  "file": "srcs/shell/builtins/redirection.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/main_bonus.o",
+   "-c",
+   "srcs/shell/pipex/main_bonus.c"
+  ],
+  "file": "srcs/shell/pipex/main_bonus.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/pipex.o",
+   "-c",
+   "srcs/shell/pipex/pipex.c"
+  ],
+  "file": "srcs/shell/pipex/pipex.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/pipex_utils.o",
+   "-c",
+   "srcs/shell/pipex/pipex_utils.c"
+  ],
+  "file": "srcs/shell/pipex/pipex_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/process_utils.o",
+   "-c",
+   "srcs/shell/pipex/process_utils.c"
+  ],
+  "file": "srcs/shell/pipex/process_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/utils.o",
+   "-c",
+   "srcs/shell/pipex/utils.c"
+  ],
+  "file": "srcs/shell/pipex/utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/here_doc_bonus.o",
+   "-c",
+   "srcs/shell/pipex/here_doc_bonus.c"
+  ],
+  "file": "srcs/shell/pipex/here_doc_bonus.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/shell/pipex/here_doc_utils_bonus.o",
+   "-c",
+   "srcs/shell/pipex/here_doc_utils_bonus.c"
+  ],
+  "file": "srcs/shell/pipex/here_doc_utils_bonus.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/Minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-I",
+   "includes",
+   "-g",
+   "-o",
+   ".objs/main.o",
+   "-c",
+   "srcs/main.c"
+  ],
+  "file": "srcs/main.c"
+ }
+]

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 07:00:32 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/28 03:09:33 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ typedef struct s_data
 	int			red_in;
 	int			red_out;
 	int			red_app;
-	int			fds[1024];
-	int			fd;
-}		t_data;
+	int			fds;
+	char		fds_here_docs[1024][11];
+}				t_data;
 
 void	extends(char **sub_string, char quote, char quote_after, t_data *data);
 void	exec(t_ast *ast, t_data **data);
@@ -71,5 +71,7 @@ int		close_dup(int save_stdout);
 int		export(t_data **data, t_command *cmd);
 int		get_index_env(char **env, char *search);
 void	rebuilt_command(t_ast *ast, t_data *data);
+int		heredocs(char *delimiter, t_data *data);
+void	clean_redir(int save_in, int save_out, int save_out2);
 
 #endif

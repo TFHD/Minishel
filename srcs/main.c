@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 07:11:26 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/28 05:54:00 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,25 @@ static void	__print_node(t_ast *ast, char *x)
 	}
 }
 
+void	handle_heredocs(t_token *token, t_data **data)
+{
+	t_token	*token_tmp;
+
+	token_tmp = token;
+	while (token->type != TOKEN_END)
+	{
+		if (token->type == TOKEN_HEREDOC && (token->next->type != TOKEN_END && token->next->type == TOKEN_ARGUMENT))
+		{
+			clean_redir((*data)->red_in, -1, -1);
+			(*data)->red_in = heredocs(token->next->value, *data);
+		}
+		token = token->next;
+	}
+	token = token_tmp;
+	clean_redir((*data)->red_in, -1, -1);
+	(*data)->red_in = -1;
+}
+
 void	__print_tree(t_ast *ast, int tab)
 {
 	char	*t;
@@ -141,6 +160,13 @@ void	__print_tree(t_ast *ast, int tab)
 	IF PIPE IN AST -> LEFT OR RIGHT NOT PIPE NOR CMD == SUBSHELL
 */
 
+void	unlink_all_fds(t_data **data)
+{
+	while(--(*data)->fds >= 0)
+		unlink((*data)->fds_here_docs[(*data)->fds]);
+	(*data)->fds = 0;
+}
+
 t_data	*init_data()
 {
 	t_data	*data;
@@ -152,7 +178,7 @@ t_data	*init_data()
 	data->red_in = -1;
 	data->red_out = -1;
 	data->red_app = -1;
-	data->fd = 0;
+	data->fds = 0;
 	return (data);
 }
 
@@ -184,15 +210,18 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		lp_free(prompt);
 		data->token = tokenize_input(input);
-		if (data->token && data->token->type != TOKEN_END)
+		handle_heredocs(data->token, &data);
+		if (data->token && validate_token(data->token) && data->token->type != TOKEN_END)
 		{
 			cpy_tokens = data->token;
 			data->ast = create_ast(&data->token);
-			print_tokens(cpy_tokens);
-			printf("\n-----------------------------\n\n");
-			__print_tree(data->ast, 0);
-			printf("\n-----------------------------\n\n");
+		//	print_tokens(cpy_tokens);
+		//	printf("\n-----------------------------\n\n");
+		//	__print_tree(data->ast, 0);
+		//	printf("\n-----------------------------\n\n");
 			exec(data->ast, &data);
+			if (data->fds != 0)
+				unlink_all_fds(&data);
 			free_ast(data->ast);
 			free_tokens(cpy_tokens);
 		}
