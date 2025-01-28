@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:21:45 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 08:21:10 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/28 07:57:39 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ t_ast	*create_ast(t_token **token)
 		{
 			*token = (*token)->next;
 			node = create_ast(token);
-			node->is_subshell = 1;
+			if (node)
+				node->is_subshell = 1;
 		}
 		else
 			node = create_ast_node(token);

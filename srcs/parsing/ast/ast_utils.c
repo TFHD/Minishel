@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:28:39 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 08:45:49 by albernar         ###   ########.fr       */
+/*   Updated: 2025/01/28 08:02:05 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	add_ast_branch_left_or_subshell(t_ast **root, t_ast *node)
 	}
 	else
 	{
-		if (!node->left)
+		if (node && !node->left)
 		{
 			node->left = *root;
 			*root = node;
@@ -58,7 +58,7 @@ int	add_ast_branch(t_ast **root, t_ast *node)
 {
 	if (!*root)
 		return (0);
-	if ((node->type == TOKEN_PIPE && ((*root)->type == TOKEN_LOGICAL_AND
+	if (node && (node->type == TOKEN_PIPE && ((*root)->type == TOKEN_LOGICAL_AND
 				|| (*root)->type == TOKEN_LOGICAL_OR))
 		&& (*root)->is_subshell != 1)
 	{
@@ -87,14 +87,14 @@ void	add_ast_node(t_ast **root, t_ast *node)
 		*root = node;
 		return ;
 	}
-	if ((node->type == TOKEN_LOGICAL_AND || node->type == TOKEN_LOGICAL_OR)
-		&& (*root)->type <= TOKEN_ARGUMENT)
+	if (node && ((node->type == TOKEN_LOGICAL_AND || node->type == TOKEN_LOGICAL_OR)
+		&& (*root)->type <= TOKEN_ARGUMENT))
 	{
 		node->left = *root;
 		*root = node;
 		return ;
 	}
-	if (node->type <= TOKEN_ARGUMENT || node->is_subshell == 1)
+	if (node && (node->type <= TOKEN_ARGUMENT || node->is_subshell == 1))
 	{
 		add_ast_leaf(*root, node);
 		return ;
