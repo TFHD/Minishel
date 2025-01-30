@@ -6,13 +6,11 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/23 22:50:47 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/28 07:09:27 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "pipex_bonus.h"
-#include "shell.h"
 
 void	print_export(char **envp)
 {
@@ -80,7 +78,7 @@ int	is_good_export_name(char *str)
 	alpha = 0;
 	if (!*str || ft_strlen(str) == 0 || *str == '=')
 		return (0);
-	while (*(str + i) && *(str + i) != '=')
+	while (*(str + i) && (*(str + i) != '=' && (*(str + i) != '+' && *(str + i + 1) != '=')))
 	{
 		if (ft_isalpha(*(str + i)))
 			alpha = 1;
@@ -117,12 +115,16 @@ char **realloc_env(char **env, char *content)
 	return (new_env);
 }
 
-void	modify_env(t_data *data, char *env_name, char *new_content)
+void	modify_env(t_data *data, char *env_name, char *new_content, int is_plus)
 {
 	char *final_content;
 	char **env;
 
-	final_content = ft_strsjoin(0, 3, env_name, "=", new_content);
+	if (!is_plus)
+		final_content = ft_strsjoin(0, 3, env_name, "=", new_content);
+	else
+		final_content = ft_strsjoin(0, 4, env_name, "=", get_env(data->env, env_name), new_content);
+
 	env = env_list_to_char(data->env, 0);
 	env = realloc_env(env, final_content);
 	free_env_list(data->env);
@@ -138,17 +140,21 @@ void	add_export(char *str, t_data *data)
 	char	*is_inside_env;
 	char	*env_name;
 	char	*new_content;
+	int		is_plus;
 
 	i = 0;
-	while (*(str + i) && *(str + i) != '=')
+	is_plus = 0;
+	while (*(str + i) && *(str + i) != '=' && *(str + i) != '+')
 		i++;
+	if (*(str + i) == '+')
+		is_plus = 1;
 	env_name = ft_substr(str, 0, i);
 	new_content = ft_substr(str, i + 1, ft_strlen(str));
 	is_inside_env = get_env(data->env, env_name);
 	if (is_inside_env != NULL)
 		set_env(data->env, env_name, new_content);
 	else
-		modify_env(data, env_name, new_content);
+		modify_env(data, env_name, new_content, is_plus);
 	free(env_name);
 	free(new_content);
 }

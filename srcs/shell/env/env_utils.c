@@ -6,16 +6,29 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 19:46:43 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/27 21:33:31 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:10:04 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+char	*get_env_name(char *env_name)
+{
+	char	*name;
+	int		i;
+
+	i = 0;
+	while(*(env_name + i) && *(env_name + i) != '=')
+		i++;
+	name = ft_substr(env_name, 0, i);
+	return (name);
+}
+
 char	*get_env(t_env_list *env_list, char *env_name)
 {
 	t_env_list	*current;
 	size_t		env_name_size;
+	char		*name;
 
 	if (!env_list)
 		return (NULL);
@@ -23,9 +36,14 @@ char	*get_env(t_env_list *env_list, char *env_name)
 	env_name_size = ft_strlen(env_name);
 	while (current != env_list)
 	{
-		if (ft_strnstr((char *)current->content, env_name, env_name_size))
+		name = get_env_name((char *)current->content);
+		if (!ft_strcmp(name, env_name))
+		{
+			free(name);
 			return (current->content + env_name_size + 1);
+		}
 		current = current->next;
+		free(name);
 	}
 	return (NULL);
 }

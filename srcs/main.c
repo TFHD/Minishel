@@ -6,17 +6,13 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/28 05:54:00 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 02:54:02 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
 #include "minishell.h"
-#include "shell.h"
+#include "pipex_bonus.h"
 #include "token.h"
-#include <readline/readline.h>
-#include <signal.h>
-#include <unistd.h>
 
 int	g_recieved = 0;
 
@@ -26,6 +22,11 @@ void	signal2(int signal)
 	{
 		printf("\n");
 		g_recieved = 130;
+	}
+	if (signal == SIGQUIT)
+	{
+		printf("\n");
+		g_recieved = 131;
 	}
 }
 
@@ -77,7 +78,7 @@ void	print_tokens(t_token *head)
 	current = head;
 	while (current)
 	{
-		printf("Token %d: Type = %s, Value = %s\n",
+		printf("Token %d: Type = \e[31m%s\e[0m, Value = %s\n",
 			index++,
 			get_token_type_name(current->type),
 			current->value
@@ -106,12 +107,12 @@ static void	__print_node(t_ast *ast, char *x)
 			red = ast->cmd->redirection;
 		printf("%s", x);
 		while (token && *token)
-			printf("{%s} ", *token++);
+			printf("{\e[31m%s\e[0m} ", *token++);
 		printf("\n");
 		printf("%s", x);
 		while (red)
 		{
-			printf("[%s] {%s} ", token_redir[red->type - TOKEN_REDIRECT_IN],
+			printf("[\e[33m%s\e[0m] {\e[31m%s\e[0m} ", token_redir[red->type - TOKEN_REDIRECT_IN],
 				red->redirect);
 			red = red->next;
 		}
@@ -122,17 +123,22 @@ static void	__print_node(t_ast *ast, char *x)
 void	handle_heredocs(t_token *token, t_data **data)
 {
 	t_token	*token_tmp;
+	int		find;
 
 	token_tmp = token;
+	find = 0;
 	while (token->type != TOKEN_END)
 	{
 		if (token->type == TOKEN_HEREDOC && (token->next->type != TOKEN_END && token->next->type == TOKEN_ARGUMENT))
 		{
 			clean_redir((*data)->red_in, -1, -1);
 			(*data)->red_in = heredocs(token->next->value, *data);
+			find = 1;
 		}
 		token = token->next;
 	}
+	if (find)
+		get_next_line(-1);
 	token = token_tmp;
 	clean_redir((*data)->red_in, -1, -1);
 	(*data)->red_in = -1;
@@ -167,19 +173,40 @@ void	unlink_all_fds(t_data **data)
 	(*data)->fds = 0;
 }
 
-t_data	*init_data()
+void	init_data(t_data **data, char **envp)
 {
-	t_data	*data;
+	int		shlvl;
+	int		is_overflow;
+	char	*old_shlvl;
+	char	new_shlvl[11];
 
-	data = lp_alloc(sizeof(t_data), 1);
-	data->env = 0;
-	data->token = 0;
-	data->exit_code = 0;
+	(*data)->env = copy_env(envp);
+	(*data)->token = 0;
+	(*data)->exit_code = 0;
+	(*data)->red_in = -1;
+	(*data)->red_out = -1;
+	(*data)->red_app = -1;
+	(*data)->fds = 0;
+	(*data)->in_fd = 0;
+	old_shlvl = get_env((*data)->env, "SHLVL");
+	if (old_shlvl)
+	{
+		shlvl = ft_atoi(old_shlvl, &is_overflow);
+		set_env((*data)->env, "SHLVL", ft_itoa_b(shlvl + 1, new_shlvl));
+	}
+}
+
+void	_print_data_values(t_data *data)
+{
 	data->red_in = -1;
-	data->red_out = -1;
 	data->red_app = -1;
-	data->fds = 0;
-	return (data);
+	data->red_out = -1;
+	printf("\n");
+	printf("red_in : \e[32m%d\e[0m\n", data->red_in);
+	printf("red out : \e[32m%d\e[0m\n", data->red_out);
+	printf("red append : \e[32m%d\e[0m\n", data->red_app);
+	printf("fds : \e[32m%d\e[0m\n", data->fds);
+	printf("in_fd : \e[32m%d\e[0m\n", data->in_fd);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -192,8 +219,8 @@ int	main(int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	//print_header(BLACK_TEXT_WHITE_BG);
-	data = init_data();
-	data->env = copy_env(envp);
+	data = lp_alloc(sizeof(t_data), 1);
+	init_data(&data, envp);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -210,28 +237,34 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		lp_free(prompt);
 		data->token = tokenize_input(input);
-		handle_heredocs(data->token, &data);
-		if (data->token && validate_token(data->token) && data->token->type != TOKEN_END)
+		if (data->token)
+			handle_heredocs(data->token, &data);
+		if (data->token && data->token->type != TOKEN_END)
 		{
-			cpy_tokens = data->token;
-			data->ast = create_ast(&data->token);
-			print_tokens(cpy_tokens);
-			printf("\n-----------------------------\n\n");
-			__print_tree(data->ast, 0);
-			printf("\n-----------------------------\n\n");
-			exec(data->ast, &data);
-			if (data->fds != 0)
-				unlink_all_fds(&data);
-			free_ast(data->ast);
-			free_tokens(cpy_tokens);
+			if (validate_token(data->token))
+			{
+				cpy_tokens = data->token;
+				data->ast = create_ast(&data->token);
+				print_tokens(cpy_tokens);
+				printf("\n-----------------------------\n\n");
+				__print_tree(data->ast, 0);
+				printf("\n-----------------------------\n\n");
+				exec(data->ast, &data, 0);
+				free_ast(data->ast);
+				free_tokens(cpy_tokens);
+			}
+			else 
+				data->exit_code = 2;
 		}
-		if (!data->token)
-			g_recieved = 2;
+		if (data->fds != 0)
+			unlink_all_fds(&data);
 		free(input);
+		data->in_fd = 0;
+	//	_print_data_values(data);
 	}
 	if (!input)
 		lp_free(prompt);
-	free_env_list(data->env);
 	rl_clear_history();
+	free_env_list(data->env);
 	printf("exit\n");
 }

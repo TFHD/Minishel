@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/28 03:09:33 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:40:40 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ typedef struct s_data
 	int			red_app;
 	int			fds;
 	char		fds_here_docs[1024][11];
+	int			pipes[2];
+	int			in_fd;
 }				t_data;
 
 void	extends(char **sub_string, char quote, char quote_after, t_data *data);
-void	exec(t_ast *ast, t_data **data);
+void	exec(t_ast *ast, t_data **data, int pipes);
 void	exec_order(t_ast *ast, t_data *data);
 char	*get_env(t_env_list *env_list, char *env_name);
 void	parsing_quote(t_token **token, t_data *data);
@@ -62,7 +64,7 @@ void	no_option(t_command *cmd);
 int		pwd(t_command *cmd);
 int		env(t_command *cmd, t_data *data);
 int		echo(t_command *cmd);
-int		redirect(t_ast *ast, t_data *data);
+int		redirect(t_ast *ast, t_data *data, int pipe);
 int		ft_exit(t_command *cmd);
 int		cd(t_command *cmd, t_data *data);
 void	set_env(t_env_list *env_list, char *env_name, char *new);
@@ -73,5 +75,6 @@ int		get_index_env(char **env, char *search);
 void	rebuilt_command(t_ast *ast, t_data *data);
 int		heredocs(char *delimiter, t_data *data);
 void	clean_redir(int save_in, int save_out, int save_out2);
+void	do_pipe(t_ast *ast, t_data *data, int is_pipe);
 
 #endif

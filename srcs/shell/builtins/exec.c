@@ -6,11 +6,10 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/28 00:39:50 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 02:42:48 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
 #include "minishell.h"
 #include "token.h"
 
@@ -108,7 +107,8 @@ void	exec_order(t_ast *ast, t_data *data)
 			return ;
 		else if (pid == 0 && path_command)
 		{
-			signal(SIGINT, SIG_DFL);
+			signal(SIGINT, signal2);
+			signal(SIGQUIT, signal2);
 			execve(path_command, ast->cmd->cmds_args, env);
 		}
 		else
@@ -150,20 +150,73 @@ void	rebuilt_command(t_ast *ast, t_data *data)
 	free(input);
 }
 
-void	exec(t_ast *ast, t_data **data)
+void	do_pipe(t_ast *ast, t_data *data, int is_pipe)
+{
+	int	status;
+
+	status = 0;
+	pipe(data->pipes);
+    pid_t pid = fork();
+    if (pid == 0) {
+        if (data->in_fd != 0) {
+            dup2(data->in_fd, 0);
+            close(data->in_fd);
+        }
+        if (is_pipe != -1) {
+            dup2(data->pipes[1], 1);
+        }
+        close(data->pipes[0]);
+        close(data->pipes[1]);
+		if (ast->cmd->redirection)
+			redirect(ast, data, is_pipe);
+		else
+		{
+			if (*ast->cmd->cmds_args)
+				rebuilt_command(ast, data);
+			exec_order(ast, data);
+		}
+		exit(data->exit_code);
+    } else {
+		if (is_pipe == -1)
+			waitpid(pid, &status, 0);
+		close(data->pipes[1]);
+		if (data->in_fd != 0)
+			close(data->in_fd);
+        data->in_fd = data->pipes[0];
+    }
+	if (WIFEXITED(status))
+		data->exit_code = WEXITSTATUS(status);
+}
+
+void	exec(t_ast *ast, t_data **data, int pipe)
 {
 	if (!ast)
 		return ;
 	if (ast->type == TOKEN_LOGICAL_AND || ast->type == TOKEN_LOGICAL_OR || ast->type == TOKEN_PIPE)
-		exec(ast->left, data);
-	if (ast->cmd->redirection)
-		redirect(ast, *data);
+	{
+		if (ast->type == TOKEN_PIPE)
+			exec(ast->left, data, pipe + 1);
+		else
+			exec(ast->left, data, pipe);
+	}
+	if (pipe && *ast->cmd->cmds_args)
+		do_pipe(ast, *data, pipe);
 	else
 	{
-		if (*ast->cmd->cmds_args)
-			rebuilt_command(ast, *data);
-		exec_order(ast, *data);
+		if (ast->cmd->redirection)
+			redirect(ast, *data, pipe);
+		else
+		{
+			if (*ast->cmd->cmds_args)
+				rebuilt_command(ast, *data);
+			exec_order(ast, *data);
+		}
 	}
 	if (((*data)->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND) || ((*data)->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR) || (ast->type == TOKEN_PIPE))
-		exec(ast->right, data);
+	{
+		if (ast->type == TOKEN_PIPE && pipe == 0 && ast->right->type == TOKEN_COMMAND)
+			exec(ast->right, data, -1);
+		else
+			exec(ast->right, data, pipe);
+	}
 }

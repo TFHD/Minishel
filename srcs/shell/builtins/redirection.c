@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:14:46 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/28 04:32:27 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:49:51 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	heredocs(char *delimiter, t_data *data)
         perror("dup2");
         exit(EXIT_FAILURE);
     }
-    close(temp_fd);
+	close(temp_fd);
 	data->fds++;
 	return (save_in);
 }
@@ -106,9 +106,6 @@ int	redirect_in(char *in_file, int *error)
 
 void	clean_redir(int save_in, int save_out, int save_out2)
 {
-	//printf("save_in : %d\n", save_in);
-	//printf("save out : %d\n", save_out);
-	//printf("save_out2 : %d\n", save_out2);
 	if (save_in > 0)
 	{
 		dup2(save_in, 0);
@@ -126,13 +123,13 @@ void	clean_redir(int save_in, int save_out, int save_out2)
 	}
 }
 
-int	redirect(t_ast *ast, t_data *data)
+int	redirect(t_ast *ast, t_data *data, int pipe)
 {
 	t_token			*in_out_file;
 	int				error;
 	t_redirection	*redirecti;
 	static int		fd_here_docs;
-
+	(void) pipe;
 	redirecti = ast->cmd->redirection;
 	error = 0;
 	while (redirecti)
