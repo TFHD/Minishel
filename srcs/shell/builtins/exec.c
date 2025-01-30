@@ -6,7 +6,7 @@
 /*   By: sabartho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/30 02:42:48 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 06:49:23 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,10 @@ void	rebuilt_command(t_ast *ast, t_data *data)
 		free_command(ast->cmd);
 		token = tokenize_input(input);
 		data->type_parse = 1;
-		parsing_quote(&token, data);
+		parsing_quote(&token, data, 1);
 		pre_parsing(&token);
 		data->type_parse = 0;
-		parsing_quote(&token, data);
+		parsing_quote(&token, data, 1);
 		ast->cmd = command_builder(&token);
 	}
 	free(input);
@@ -199,7 +199,7 @@ void	exec(t_ast *ast, t_data **data, int pipe)
 		else
 			exec(ast->left, data, pipe);
 	}
-	if (pipe && *ast->cmd->cmds_args)
+	if (pipe && (*ast->cmd->cmds_args || ast->cmd->redirection))
 		do_pipe(ast, *data, pipe);
 	else
 	{

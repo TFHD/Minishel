@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:05:05 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/30 02:54:02 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 07:25:43 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,12 @@ void	__print_tree(t_ast *ast, int tab)
 
 void	unlink_all_fds(t_data **data)
 {
+	int	temp;
+
+	temp = (*data)->fds;
 	while(--(*data)->fds >= 0)
 		unlink((*data)->fds_here_docs[(*data)->fds]);
-	(*data)->fds = 0;
+	(*data)->fds = temp;
 }
 
 void	init_data(t_data **data, char **envp)
@@ -186,6 +189,8 @@ void	init_data(t_data **data, char **envp)
 	(*data)->red_in = -1;
 	(*data)->red_out = -1;
 	(*data)->red_app = -1;
+	(*data)->pipes[0] = -2;
+	(*data)->pipes[1] = -2;
 	(*data)->fds = 0;
 	(*data)->in_fd = 0;
 	old_shlvl = get_env((*data)->env, "SHLVL");

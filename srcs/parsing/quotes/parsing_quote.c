@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:59:23 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/29 23:10:38 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 07:04:02 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	pre_parsing(t_token **token)
 }
 
 
-char	*get_text_inside_quote(t_token *token, char quote, int *i, t_data *data)
+char	*get_text_inside_quote(t_token *token, char quote, int *i, t_data *data, int expand)
 {
 	char	*sub_string;
 	int		start_i;
@@ -44,12 +44,13 @@ char	*get_text_inside_quote(t_token *token, char quote, int *i, t_data *data)
 	while (token->value[*i] != quote)
 		(*i)++;
 	sub_string = ft_substr(token->value, start_i - data->type_parse, *i - start_i + (2 * data->type_parse));
-	extends(&sub_string, quote, token->value[*i], data);
+	if (expand)
+		extends(&sub_string, quote, token->value[*i], data);
 	(*i)++;
 	return (sub_string);
 }
 
-char	*get_text_outside_quote(t_token *token, int *i, t_data *data)
+char	*get_text_outside_quote(t_token *token, int *i, t_data *data, int expand)
 {
 	char	*sub_string;
 	int		start_i;
@@ -59,11 +60,12 @@ char	*get_text_outside_quote(t_token *token, int *i, t_data *data)
 		&& token->value[*i] != '\'')
 		(*i)++;
 	sub_string = ft_substr(token->value, start_i, *i - start_i);
-	extends(&sub_string, '\"', token->value[*i], data);
+	if (expand)
+		extends(&sub_string, '\"', token->value[*i], data);
 	return (sub_string);
 }
 
-void	parsing_quote(t_token **token, t_data *data)
+void	parsing_quote(t_token **token, t_data *data, int expand)
 {
 	char	quote;
 	char	*new_str;
@@ -81,10 +83,10 @@ void	parsing_quote(t_token **token, t_data *data)
 		while (i < (int)ft_strlen((*token)->value))
 		{
 			quote = (*token)->value[i];
-			if (quote == '\"' || quote == '\'')
-				sub_str = get_text_inside_quote(*token, quote, &i, data);
+			if ((quote == '\"' || quote == '\''))
+				sub_str = get_text_inside_quote(*token, quote, &i, data, expand);
 			else
-				sub_str = get_text_outside_quote(*token, &i, data);
+				sub_str = get_text_outside_quote(*token, &i, data, expand);
 			new_str = ft_strjoin(new_str, sub_str, 1, 1);
 		}
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:28:39 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/28 08:04:08 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 07:22:06 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	add_ast_branch_left_or_subshell(t_ast **root, t_ast *node)
 {
-	if ((*root)->is_subshell == 1)
+	if ((*root)->is_subshell == 1 && node)
 	{
 		node->left = *root;
 		*root = node;

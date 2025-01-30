@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 02:10:43 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/30 01:40:40 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 06:48:58 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	extends(char **sub_string, char quote, char quote_after, t_data *data);
 void	exec(t_ast *ast, t_data **data, int pipes);
 void	exec_order(t_ast *ast, t_data *data);
 char	*get_env(t_env_list *env_list, char *env_name);
-void	parsing_quote(t_token **token, t_data *data);
+void	parsing_quote(t_token **token, t_data *data, int expand);
 void	pre_parsing(t_token **data);
 void	signal_handler(int signal);
 void	signal2(int signal);

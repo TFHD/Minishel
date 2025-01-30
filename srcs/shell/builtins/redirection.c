@@ -6,11 +6,35 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:14:46 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/30 01:49:51 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/01/30 06:53:25 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expand_heredocs(char *input, t_data *data, int temp_fd)
+{
+	t_token *token;
+	t_token	*token_tmp;
+	char	*final_input;
+
+	token = tokenize_input(input);
+	data->type_parse = 0;
+	parsing_quote(&token, data, 1);
+	final_input = ft_strdup(token->value);
+	token_tmp = token;
+	token = token->next;
+	while (token && token->type != TOKEN_END)
+	{
+		final_input = ft_strsjoin(0b100, 3, final_input, " ", token->value);
+		token = token->next;
+	}
+	token = token_tmp;
+	free_tokens(token);
+	write(temp_fd, final_input, ft_strlen(final_input));
+	write(temp_fd, "\n", 1);
+	free(final_input);
+}
 
 int	heredocs(char *delimiter, t_data *data)
 {
@@ -20,22 +44,30 @@ int	heredocs(char *delimiter, t_data *data)
 	int			save_in;
 
 	ft_itoa_b(i, data->fds_here_docs[data->fds]);
+	t_token	*_delimiter;
+
+	_delimiter = tokenize_input(delimiter);
+	parsing_quote(&_delimiter, data, 0);
 	temp_fd = open(data->fds_here_docs[data->fds], O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (temp_fd == -1) {
         perror("open");
         exit(EXIT_FAILURE);
     }
-	write(STDIN_FILENO, "> ", 2);
-	line = get_next_line(STDIN_FILENO);
+	line = readline("> ");
     while (line != NULL)
 	{
-        if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+        if (ft_strncmp(line, _delimiter->value, ft_strlen(_delimiter->value)) == 0)
             break;
-		write(STDIN_FILENO, "> ", 2);
-        write(temp_fd, line, strlen(line));
+		if (ft_strchr(delimiter, '\"'))
+		{
+			write(temp_fd, line, strlen(line));
+			write(temp_fd, "\n", 1);
+		}
+		else
+			expand_heredocs(line, data, temp_fd);
 		free(line);
 		i++;
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
     }
 	if (line == NULL)
 	{
@@ -47,6 +79,7 @@ int	heredocs(char *delimiter, t_data *data)
 		write(STDIN_FILENO, "')\n", 3);
 	}
 	free(line);
+	free_tokens(_delimiter);
 	line = 0;
 	save_in = dup(0);
     close(temp_fd);
@@ -135,7 +168,7 @@ int	redirect(t_ast *ast, t_data *data, int pipe)
 	while (redirecti)
 	{	
 		in_out_file = tokenize_input(redirecti->redirect);
-		parsing_quote(&in_out_file, data);
+		parsing_quote(&in_out_file, data, 1);
 		if (redirecti->type == TOKEN_REDIRECT_OUT)
 		{
 			clean_redir(-1, data->red_out, -1);
