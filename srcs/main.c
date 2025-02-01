@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 04:03:23 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 21:06:30 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	init_data(t_data *data, char **envp)
 	data->pipefd[1] = -2;
 	data->fd = 0;
 	data->infile = 0;
+	data->pwd = NULL;
 	old_shlvl = get_env(data->env, "SHLVL");
 	if (old_shlvl)
 	{
@@ -88,7 +89,7 @@ int	main(
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		prompt = get_prompt(isatty(0));
+		prompt = get_prompt(&data, isatty(0));
 		input = readline(prompt);
 		data.input = lp_strdup(input);
 		free(input);

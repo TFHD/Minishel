@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 03:04:32 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 21:06:13 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_data
 	int			pipefd[2];
 	int			infile;
 	int			expand;
+	char		*pwd;
 }				t_data;
 
 void	extends(char **sub_string, char quote, char quote_after, t_data *data);

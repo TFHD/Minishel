@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 19:46:43 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 00:43:47 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 20:36:05 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	**env_list_to_char(t_env_list *head, char *remove)
 		tmp = current;
 		current = current->next;
 		if (!ft_strnstr(tmp->content, remove, ft_strlen(remove)))
-			envp[i++] = ft_strdup(tmp->content);
+			envp[i++] = lp_strdup(tmp->content);
 	}
 	envp[i] = 0;
 	return (envp);

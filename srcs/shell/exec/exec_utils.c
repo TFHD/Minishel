@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:15:30 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 03:25:37 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 20:36:08 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*set_path(char *paths, char **path, char *file_name, int i)
 	else if (*(paths + i + 1) == 0)
 	{
 		lp_free(*path);
-		*path = ft_strdup(file_name);
+		*path = lp_strdup(file_name);
 	}
 	return (*path);
 }
