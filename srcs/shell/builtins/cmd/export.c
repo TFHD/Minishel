@@ -15,29 +15,23 @@
 void	print_export(char **envp)
 {
 	size_t	i;
-	size_t	j;
-	char	equ;
+	char	*equal_sign;
 
-	i = 0;
-	while (envp[i])
+	i = -1;
+	while (envp[++i])
 	{
-		equ = 1;
-		j = 0;
-		ft_printf("declare -x ");
-		while (envp[i][j])
+		equal_sign = ft_strchr(envp[i], '=');
+		if (equal_sign)
 		{
-			ft_printf("%c", envp[i][j]);
-			if (envp[i][j] == '=' && equ)
-			{
-				ft_printf("\"");
-				equ--;
-			}
-			j++;
+			if (!*(equal_sign + 1))
+				ft_printf("declare -x %.*s\n",
+					(int)(equal_sign - envp[i]), envp[i]);
+			else
+				ft_printf("declare -x %.*s=\"%s\"\n",
+					(int)(equal_sign - envp[i]), envp[i], equal_sign + 1);
 		}
-		if (!equ)
-			ft_printf("\"");
-		ft_printf("\n");
-		i++;
+		else
+			ft_printf("declare -x %s\n", envp[i]);
 	}
 }
 
