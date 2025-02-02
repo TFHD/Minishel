@@ -6,11 +6,12 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 05:54:09 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 00:42:37 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 07:19:17 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
 
 char	**prepare_exec_order(t_ast *ast, t_data *data, char **path_command)
 {
@@ -25,8 +26,8 @@ char	**prepare_exec_order(t_ast *ast, t_data *data, char **path_command)
 		return (NULL);
 	else if (pid == 0 && *path_command)
 	{
-		signal(SIGINT, accurate_signal);
-		signal(SIGQUIT, accurate_signal);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		execve(*path_command, ast->cmd->cmds_args, env);
 	}
 	else
@@ -35,8 +36,8 @@ char	**prepare_exec_order(t_ast *ast, t_data *data, char **path_command)
 		waitpid(pid, &status, 0);
 		signal(SIGINT, signal_handler);
 	}
-	if (WIFEXITED(status) && *path_command)
-		data->exit_code = WEXITSTATUS(status);
+	if (path_command)
+		accurate_signal(status, data);
 	return (env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:59:23 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 00:41:48 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 05:04:36 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static char	*get_text_outside_quote(t_token *token, int *i, t_data *data)
 	while (token->value[*i] && token->value[*i] != '\"'
 		&& token->value[*i] != '\'')
 		(*i)++;
+	if (token->value[*i] == '\"' && token->value[*i - 1] == '$')
+		return (lp_substr(token->value, start_i, *i - start_i - 1));
 	sub_string = lp_substr(token->value, start_i, *i - start_i);
 	if (data->expand)
 		extends(&sub_string, '\"', token->value[*i], data);

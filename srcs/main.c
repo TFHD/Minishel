@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 21:06:30 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 05:47:16 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	init_data(t_data *data, char **envp)
 	data->pipefd[1] = -2;
 	data->fd = 0;
 	data->infile = 0;
+	data->pipe_fds = 0;
 	data->pwd = NULL;
 	old_shlvl = get_env(data->env, "SHLVL");
 	if (old_shlvl)
@@ -111,11 +112,12 @@ int	main(
 			{
 				cpy_tokens = data.token;
 				data.ast = create_ast(&data.token);
-				//print_tokens(cpy_tokens);
-				//ft_dprintf(2, "\n-----------------------------\n\n");
-				//__print_tree(data.ast, 0);
-				//ft_dprintf(2, "\n-----------------------------\n\n");
+			//	print_tokens(cpy_tokens);
+			//	ft_dprintf(2, "\n-----------------------------\n\n");
+			//	__print_tree(data.ast, 0);
+			//	ft_dprintf(2, "\n-----------------------------\n\n");
 				exec(data.ast, &data, 0);
+				waitall(&data);
 				free_ast(data.ast);
 			}
 			else
@@ -123,6 +125,8 @@ int	main(
 		}
 		if (data.fd != 0)
 			unlink_fd(&data);
+		if (data.infile != 0)
+			close(data.infile);
 		data.infile = 0;
 		lp_free(data.input);
 	}

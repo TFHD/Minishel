@@ -6,11 +6,12 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:59:51 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 18:11:46 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 04:15:40 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <strings.h>
 
 char	*get_envp(t_data *data, char *str)
 {
@@ -92,28 +93,20 @@ void	extends(char **sub_string, char quote,
 	char quote_after_type, t_data *data)
 {
 	int		i;
-	//int		j;
-	//char	**expanded;
 	char	*env;
 
 	i = -1;
 	while (++i < (int)ft_strlen(*sub_string))
 	{
-		/*if (*(*sub_string + i) == '*')
-		{
-			j = 0;
-			expanded = expand_wildcards(*sub_string);
-			while (expanded && expanded[j])
-				ft_dprintf(2, "expanded[%d] = %s\n", i, expanded[j++]);
-		}*/
 		if (*(*sub_string + i) == '$' && quote == '\"')
 		{
-			if (ft_isalnum(*(*sub_string + i + 1))
-				|| quote_after_type == '\'' || *(*sub_string + i + 1) == '?')
+			if ((ft_isalnum(*(*sub_string + i + 1))
+				|| quote_after_type == '\''
+				|| *(*sub_string + i + 1) == '?'))
 			{
 				env = get_envp(data, *sub_string + i);
 				*sub_string = replace(*sub_string,
-						*sub_string + i, i, data);
+					*sub_string + i, i, data);
 				i += ft_strlen(env) - 1;
 			}
 		}

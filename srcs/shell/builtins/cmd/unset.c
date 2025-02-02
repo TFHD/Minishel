@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:17:47 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 01:21:04 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:08:07 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	unset(t_command *cmd, t_data **data)
 	bad_args = 0;
 	while (cmd->cmds_args[++i])
 	{
-		if (is_bad_args(cmd->cmds_args[i]) && !bad_args)
+		if (i == -1)
 		{
 			ft_dprintf(2, "unset: %s: invalid parameter name\n",
 				cmd->cmds_args[i]);

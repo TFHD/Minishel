@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:48:23 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/31 03:43:54 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 07:33:25 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 int	g_received = 0;
 
-void	accurate_signal(int signal)
+void	accurate_signal(int status, t_data *data)
 {
-	if (signal == SIGINT)
+	if (WIFEXITED(status))
 	{
-		ft_printf("\n");
-		g_received = 130;
+		data->exit_code = WEXITSTATUS(status);
+		return ;
 	}
-	if (signal == SIGQUIT)
+	else if (WIFSIGNALED(status))
 	{
-		ft_printf("\n");
-		g_received = 131;
+		data->exit_code = 128 + WTERMSIG(status);
+		if (data->exit_code == 130)
+			ft_dprintf(2, "\n");
+		else
+			ft_dprintf(2, "Quit\n");
 	}
+
 }
 
 void	signal_handler(int signal)

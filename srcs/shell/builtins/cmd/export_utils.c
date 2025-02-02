@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 03:03:00 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 20:36:00 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:21:13 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	is_good_export_name(char *str)
 	alpha = 0;
 	if (!*str || ft_strlen(str) == 0 || *str == '=')
 		return (0);
-	while (*(str + i) && (*(str + i) != '='
-			&& (*(str + i) != '+' && *(str + i + 1) != '=')))
+	while (*(str + i) && (*(str + i) != '='))
 	{
+		if (!ft_isalnum(*(str + i)) && *(str + i) != '_')
+			return (0);
 		if (ft_isalpha(*(str + i)))
 			alpha = 1;
 		else
@@ -78,25 +79,22 @@ char	**realloc_env(char **env, char *content)
 	i = 0;
 	while (env[i])
 	{
-		new_env[i] = lp_strdup(env[i]);
+		new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
-	new_env[i++] = lp_strdup(content);
+	new_env[i++] = ft_strdup(content);
 	new_env[i] = 0;
 	free_strs(env);
 	return (new_env);
 }
 
-void	modify_env(t_data *data, char *env_name, char *new_content, int is_plus)
+void	modify_env(t_data *data, char *env_name, char *new_content)
 {
 	char	*final_content;
 	char	**env;
 
-	if (!is_plus)
-		final_content = lp_strsjoin(0, 3, env_name, "=", new_content);
-	else
-		final_content = lp_strsjoin(0, 4, env_name, "=",
-				get_env(data->env, env_name), new_content);
+	final_content = lp_strsjoin(0, 4, env_name, "=",
+			get_env(data->env, env_name), new_content);
 	env = env_list_to_char(data->env, 0);
 	env = realloc_env(env, final_content);
 	free_env_list(data->env);

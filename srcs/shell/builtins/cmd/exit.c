@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 00:59:51 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:44:14 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ long long	ft_atoi_exit(char *str, int *is_overflow, unsigned long long result)
 	sign = 1;
 	i = 0;
 	*is_overflow = 0;
+	//printf("str : %s\n", str);
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
 	if (*str == '-' || *str == '+')
@@ -31,7 +32,7 @@ long long	ft_atoi_exit(char *str, int *is_overflow, unsigned long long result)
 	while (*str >= '0' && *str <= '9' && ++i)
 	{
 		if ((((result * 10 + (*str - '0') > LLONG_MAX) && sign == 1)
-				|| ((result * 10 + (*str - '0') - 1 >= LLONG_MAX)
+				|| ((result * 10 + (*str - '0') - 2 >= LLONG_MAX)
 					&& sign == -1))
 			&& i >= 19)
 			*is_overflow = 1;
@@ -43,18 +44,14 @@ long long	ft_atoi_exit(char *str, int *is_overflow, unsigned long long result)
 
 int	check_args(char *str)
 {
+	while (ft_isspace(*str))
+		str++;
 	if (*str == '-' || *str == '+')
 		str++;
-	while (*str)
-	{
-		if (*str != '\f' && *str != '\t' && *str != '\r'
-			&& *str != '\v' && *str != ' ')
-		{
-			if (*str < '0' || *str > '9')
-				return (1);
-		}
+	while (ft_isdigit(*str))
 		str++;
-	}
+	if (*str != '\0')
+		return (1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:15:30 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 20:36:08 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 00:26:32 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,42 @@ void	not_command(char **path, t_data *data)
 	if (!*path)
 	{
 		ft_dprintf(2, ": command not found\n");
+		data->exit_code = 127;
 		return ;
 	}
-	else if (access((*path), F_OK) || (stat(*path, &st) == 0
-			&& !ft_strchr(*path, '/')))
+	else if (stat((*path), &st) == -1 && ft_strchr(*path, '/') && errno == EACCES)
 	{
-		ft_dprintf(2, "%s: command not found\n", (*path));
+		ft_dprintf(2, "%s: Permission denied\n", (*path));
+		lp_free(*path);
+		*path = NULL;
+		data->exit_code = 126;
+	}
+	else if (access((*path), F_OK) || (stat(*path, &st) != 0))
+	{
+		if (stat(*path, &st) != 0 && ft_strchr(*path, '/'))
+			ft_dprintf(2, "%s: No such file or directory\n", (*path));
+		else
+			ft_dprintf(2, "%s: command not found\n", (*path));
 		lp_free(*path);
 		*path = NULL;
 		data->exit_code = 127;
 	}
 	else if (S_ISDIR(st.st_mode))
 	{
-		ft_dprintf(2, "%s: Is a directory\n", (*path));
-		lp_free(*path);
-		*path = NULL;
-		data->exit_code = 126;
+		if (ft_strchr(*path, '/'))
+		{
+			ft_dprintf(2, "%s: Is a directory\n", (*path));
+			lp_free(*path);
+			*path = NULL;
+			data->exit_code = 126;
+		}
+		else
+		{
+			ft_dprintf(2, "%s: command not found\n", (*path));
+			lp_free(*path);
+			*path = NULL;
+			data->exit_code = 127;
+		}
 	}
 }
 

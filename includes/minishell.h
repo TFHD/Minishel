@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 21:06:13 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 07:16:33 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <dirent.h>
+# include <errno.h>
 
 extern int	g_received;
 
@@ -51,6 +52,8 @@ typedef struct s_data
 	t_redirects	redirects;
 	int			fd;
 	char		fds_here_docs[1024][11];
+	int			pipe_list[1024];
+	int			pipe_fds;
 	int			pipefd[2];
 	int			infile;
 	int			expand;
@@ -64,7 +67,7 @@ char	*get_env(t_env_list *env_list, char *env_name);
 void	parsing_quote(t_token **token, t_data *data, int expand);
 void	pre_parsing(t_token **data);
 void	signal_handler(int signal);
-void	accurate_signal(int signal);
+void	accurate_signal(int signal, t_data *data);
 char	*set_path(char *paths, char **path, char *file_name, int i);
 void	not_command(char **path, t_data *data);
 int		is_builtins(t_data *data, t_command *cmd);
@@ -74,6 +77,9 @@ int		redirect_in(char *in_file, int *error);
 int		redirect_out_add(char *out_file, int type, int *error);
 void	handle_heredocs(t_token *token, t_data *data);
 void	generate_heredoc_name(char *buffer, int size);
+char	*get_envp(t_data *data, char *str);
+char	*replace(const char *str, char *env_name, int i, t_data *data);
+void	extends_heredocs(char **sub_string, t_data *data);
 
 char	**env_list_to_char(t_env_list *head, char *remove);
 void	no_option(t_command *cmd);
@@ -92,7 +98,7 @@ void	rebuilt_command(t_ast *ast, t_data *data);
 int		heredocs(char *delimiter, t_data *data);
 void	clean_redir(int save_in, int save_out, int save_out2);
 void	do_pipe(t_ast *ast, t_data *data, int is_pipe);
-void	modify_env(t_data *data, char *env_name, char *new_content, int is_plus);
+void	modify_env(t_data *data, char *env_name, char *new_content);
 char	**realloc_env(char **env, char *content);
 void	sort_env(t_env_list *env);
 int		is_good_export_name(char *str);
@@ -100,5 +106,6 @@ void	print_export(char **envp);
 
 char	**expand_wildcards(const char *token);
 void	free_strs(char **strs);
+void	waitall(t_data *data);
 
 #endif

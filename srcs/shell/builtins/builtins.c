@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:17:47 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/24 19:40:19 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/02 06:28:51 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int	is_builtins(t_data *data, t_command *cmd)
 {
 	if (!ft_strcmp(*cmd->cmds_args, "pwd")
 		|| !ft_strcmp(*cmd->cmds_args, "echo")
-		|| !ft_strcmp(*cmd->cmds_args, "env")
-		|| !ft_strcmp(*cmd->cmds_args, "joy"))
+		|| !ft_strcmp(*cmd->cmds_args, "env"))
 		return (create_sub_child_builtins(data, cmd));
 	else if (!ft_strcmp(*cmd->cmds_args, "exit")
 		|| !ft_strcmp(*cmd->cmds_args, "cd")
 		|| !ft_strcmp(*cmd->cmds_args, "unset")
-		|| !ft_strcmp(*cmd->cmds_args, "export"))
+		|| !ft_strcmp(*cmd->cmds_args, "export")
+		|| !ft_strcmp(*cmd->cmds_args, "joy"))
 	{
 		builtins(data, cmd);
 		return (1);

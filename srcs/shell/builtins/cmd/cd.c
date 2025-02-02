@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 04:23:56 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 00:59:42 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 06:53:35 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	change_dir(char *dir, t_data **data, int home)
 		if (pwd)
 		{
 			set_env((*data)->env, "OLDPWD", pwd);
-			lp_free(pwd);
+			free(pwd);
 		}
 		pwd = getcwd(NULL, 0);
 		if (pwd)
 		{
 			set_env((*data)->env, "PWD", pwd);
-			lp_free(pwd);
+			free(pwd);
 		}
 		(void) home;
 		return (1);

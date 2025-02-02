@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 06:57:10 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 02:44:30 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 06:50:58 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,24 @@ void	clean_redir(int save_in, int save_out, int save_out2)
 	{
 		dup2(save_out2, 1);
 		close(save_out2);
+	}
+}
+
+
+void	extends_heredocs(char **sub_string, t_data *data)
+{
+	int		i;
+	char	*env;
+
+	i = -1;
+	while (++i < (int)ft_strlen(*sub_string))
+	{
+		if (*(*sub_string + i) == '$' && (ft_isalnum(*(*sub_string + i + 1))
+			|| *(*sub_string + i + 1) == '_'))
+		{
+			env = get_envp(data, *sub_string + i);
+			*sub_string = replace(*sub_string, *sub_string + i, i, data);
+			i += ft_strlen(env) - 1;
+		}
 	}
 }
