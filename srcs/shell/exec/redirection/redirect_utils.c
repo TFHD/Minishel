@@ -41,25 +41,41 @@ void	generate_heredoc_name(char *buffer, int size)
 	buffer[size - 1] = 0;
 }
 
-void	clean_redir(int save_in, int save_out, int save_out2)
+void	clean_redir2(int save_out2)
 {
-	if (save_in > 0)
-	{
-		dup2(save_in, 0);
-		close(save_in);
-	}
-	if (save_out > 0)
-	{
-		dup2(save_out, 1);
-		close(save_out);
-	}
 	if (save_out2 > 0)
 	{
-		dup2(save_out2, 1);
+		if (dup2(save_out2, 1) == -1)
+		{
+			perror("dup2");
+			return ;
+		}
 		close(save_out2);
 	}
 }
 
+void	clean_redir(int save_in, int save_out, int save_out2)
+{
+	if (save_in > 0)
+	{
+		if (dup2(save_in, 0) == -1)
+		{
+			perror("dup2");
+			return ;
+		}
+		close(save_in);
+	}
+	if (save_out > 0)
+	{
+		if (dup2(save_out, 1) == -1)
+		{
+			perror("dup2");
+			return ;
+		}
+		close(save_out);
+	}
+	clean_redir2(save_out2);
+}
 
 void	extends_heredocs(char **sub_string, t_data *data)
 {
@@ -70,7 +86,7 @@ void	extends_heredocs(char **sub_string, t_data *data)
 	while (++i < (int)ft_strlen(*sub_string))
 	{
 		if (*(*sub_string + i) == '$' && (ft_isalnum(*(*sub_string + i + 1))
-			|| *(*sub_string + i + 1) == '_'))
+				|| *(*sub_string + i + 1) == '_'))
 		{
 			env = get_envp(data, *sub_string + i);
 			*sub_string = replace(*sub_string, *sub_string + i, i, data);
@@ -83,6 +99,7 @@ int	token_is_before_invalid_token(t_token *token, t_token *bad_token)
 {
 	t_token_type	bad_type;
 	char			*bad_value;
+
 	if (bad_token == NULL)
 		return (1);
 	bad_value = bad_token->value;
@@ -90,5 +107,4 @@ int	token_is_before_invalid_token(t_token *token, t_token *bad_token)
 	if (token->type == bad_type && token->value == bad_value)
 		return (0);
 	return (1);
-
 }

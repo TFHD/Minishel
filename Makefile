@@ -30,6 +30,7 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				shell/exec/exec_core.c \
 				shell/exec/exec.c \
 				shell/exec/exec_utils.c \
+				shell/exec/exec_utils2.c \
 				shell/builtins/builtins.c \
 				shell/builtins/cmd/pwd.c \
 				shell/builtins/cmd/cd.c \

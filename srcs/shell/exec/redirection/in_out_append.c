@@ -26,7 +26,11 @@ int	redirect_out_add(char *out_file, int type, int *error)
 	}
 	save_out = dup(1);
 	close(1);
-	dup2(fd, STDOUT_FILENO);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		return (1);
+	}
 	close(fd);
 	return (save_out);
 }
@@ -45,7 +49,11 @@ int	redirect_in(char *in_file, int *error)
 	}
 	save_in = dup(0);
 	close(0);
-	dup2(fd, STDIN_FILENO);
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		perror("dup2");
+		return (1);
+	}
 	close(fd);
 	return (save_in);
 }

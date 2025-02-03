@@ -20,7 +20,6 @@ long long	ft_atoi_exit(char *str, int *is_overflow, unsigned long long result)
 	sign = 1;
 	i = 0;
 	*is_overflow = 0;
-	//printf("str : %s\n", str);
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
 	if (*str == '-' || *str == '+')

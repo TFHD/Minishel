@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 03:12:40 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 06:29:00 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,21 @@ static void	child_pipe_process(t_ast *ast, t_data *data, int is_pipe)
 {
 	if (data->infile != 0)
 	{
-		printf("data infile : %d\n", data->infile);
-		dup2(data->infile, 0);
+		if (dup2(data->infile, 0) == -1)
+		{
+			perror("dup2");
+			return ;
+		}
 		close(data->infile);
 	}
 	if (is_pipe != -1)
-		dup2(data->pipefd[1], 1);
+	{
+		if (dup2(data->pipefd[1], 1) == -1)
+		{
+			perror("dup2");
+			return ;
+		}
+	}
 	close(data->pipefd[0]);
 	close(data->pipefd[1]);
 	if (ast->cmd->redirection)
@@ -100,7 +109,6 @@ void	waitall(t_data *data)
 		if (WIFEXITED(status) && data->pipe_fds == tmp)
 			data->exit_code = WEXITSTATUS(status);
 	}
-	data->pipe_fds = 0;
 }
 
 void	do_pipe(t_ast *ast, t_data *data, int is_pipe)
@@ -112,7 +120,10 @@ void	do_pipe(t_ast *ast, t_data *data, int is_pipe)
 	pipe(data->pipefd);
 	pid = fork();
 	if (pid == 0)
+	{
+		rl_clear_history();
 		child_pipe_process(ast, data, is_pipe);
+	}
 	else
 	{
 		data->pipe_list[data->pipe_fds++] = pid;
@@ -123,5 +134,5 @@ void	do_pipe(t_ast *ast, t_data *data, int is_pipe)
 	}
 	if (WIFEXITED(status))
 		data->exit_code = WEXITSTATUS(status);
-		
+
 }

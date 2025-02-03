@@ -29,7 +29,6 @@ void	accurate_signal(int status, t_data *data)
 		else if (status == 3)
 			ft_dprintf(2, "Quit\n");
 	}
-
 }
 
 void	signal_handler(int signal)

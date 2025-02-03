@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 06:56:29 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 23:07:48 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 04:35:08 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	handle_heredocs(t_token *token, t_data *data)
 
 void	expand_heredocs(char *input, t_data *data, int temp_fd)
 {
-
 	extends_heredocs(&input, data);
 	ft_dprintf(temp_fd, "%s\n", input);
 	lp_free(input);
@@ -83,18 +82,18 @@ int	finish_heredoc(t_data *data, int *temp_fd)
 	if (save_in == -1)
 	{
 		perror("dup");
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	*temp_fd = open(data->fds_here_docs[data->fd], O_RDONLY);
 	if (*temp_fd == -1)
 	{
 		perror("open");
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	if (dup2(*temp_fd, 0) == -1)
 	{
 		perror("dup2");
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	return (save_in);
 }

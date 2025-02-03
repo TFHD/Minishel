@@ -101,12 +101,12 @@ void	extends(char **sub_string, char quote,
 		if (*(*sub_string + i) == '$' && quote == '\"')
 		{
 			if ((ft_isalnum(*(*sub_string + i + 1))
-				|| quote_after_type == '\''
-				|| *(*sub_string + i + 1) == '?'))
+					|| quote_after_type == '\''
+					|| *(*sub_string + i + 1) == '?'))
 			{
 				env = get_envp(data, *sub_string + i);
 				*sub_string = replace(*sub_string,
-					*sub_string + i, i, data);
+						*sub_string + i, i, data);
 				i += ft_strlen(env) - 1;
 			}
 		}

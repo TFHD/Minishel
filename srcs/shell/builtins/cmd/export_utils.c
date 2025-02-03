@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 03:03:00 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 23:21:13 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 06:43:25 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ char	**realloc_env(char **env, char *content)
 	i = 0;
 	while (env[i])
 	{
-		new_env[i] = ft_strdup(env[i]);
+		new_env[i] = lp_strdup(env[i]);
 		i++;
 	}
-	new_env[i++] = ft_strdup(content);
+	new_env[i++] = lp_strdup(content);
 	new_env[i] = 0;
 	free_strs(env);
 	return (new_env);

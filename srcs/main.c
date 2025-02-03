@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 02:24:48 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 06:04:03 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,16 @@ void	free_strs(char **strs)
 
 void	unlink_fd(t_data *data)
 {
-	while(data->fd >= 0)
+	int	tmp_fd;
+
+	tmp_fd = data->fd;
+	while (--data->fd >= 0)
 	{
 		unlink(data->fds_here_docs[data->fd]);
-		ft_bzero(data->fds_here_docs[data->fd], 11);
 		data->fd--;
 	}
-	data->fd = 0;
+	data->fd = tmp_fd;
 }
-
-/*
-	TODO
-	rl_outstream = stderr;
-	fprintf();
-	IF PIPE IN AST -> LEFT OR RIGHT NOT PIPE NOR CMD == SUBSHELL
-*/
 
 void	init_data(t_data *data, char **envp)
 {
@@ -111,10 +106,10 @@ int	main(
 			{
 				cpy_tokens = data.token;
 				data.ast = create_ast(&data.token);
-				print_tokens(cpy_tokens);
-				ft_dprintf(2, "\n-----------------------------\n\n");
-				__print_tree(data.ast, 0);
-				ft_dprintf(2, "\n-----------------------------\n\n");
+			//	print_tokens(cpy_tokens);
+			//	ft_dprintf(2, "\n-----------------------------\n\n");
+			//	__print_tree(data.ast, 0);
+			//	ft_dprintf(2, "\n-----------------------------\n\n");
 				exec(data.ast, &data, 0);
 				waitall(&data);
 				free_ast(data.ast);

@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:17:47 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 01:03:33 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 06:36:07 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	create_sub_child_builtins(t_data *data, t_command *cmd)
 	if (pid == -1)
 		return (1);
 	else if (pid == 0)
+	{
+		rl_clear_history();
 		builtins(data, cmd);
+	}
 	else
 		waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
