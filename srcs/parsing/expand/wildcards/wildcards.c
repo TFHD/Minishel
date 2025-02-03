@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:47:40 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 07:56:50 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:54:03 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,25 @@ char	**expand_wildcards(const char *token)
 		expanded[1] = NULL;
 	}
 	return (expanded);
+}
+
+void	expand_with_wildcards(char **sub_string)
+{
+	char	**expand_wc;
+	char	*sub_cpy;
+	char	*res;
+	int		i;
+
+	i = 0;
+	sub_cpy = lp_strdup(*sub_string);
+	expand_wc = expand_wildcards(sub_cpy);
+	if (expand_wc[0])
+		res = lp_strdup(expand_wc[0]);
+	while (expand_wc && expand_wc[i])
+		res = lp_strsjoin(0, 3, res, " ", expand_wc[i++]);
+	lp_free(*sub_string);
+	*sub_string = 0;
+	*sub_string = lp_strdup(res);
+	lp_free(res);
+	lp_free(sub_cpy);
 }

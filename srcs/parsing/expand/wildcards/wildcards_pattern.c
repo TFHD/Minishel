@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:13:14 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 08:58:37 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:39:23 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	**apply_pattern_segments(char **start_paths, char **segments)
 		new_list = NULL;
 		new_count = 0;
 		pidx = -1;
-		while (current_list[++pidx])
+		while (current_list && current_list[++pidx])
 		{
 			if (ft_strlen(segments[i]) == 0)
 				handle_empty_segment(&new_list, &new_count, current_list[pidx]);

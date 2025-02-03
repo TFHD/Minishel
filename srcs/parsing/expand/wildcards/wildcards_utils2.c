@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:48:14 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 07:48:55 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:41:50 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_current_list(char **current_list, char **start_paths)
 {
 	int	z;
 
-	if (current_list == start_paths)
+	if (current_list == start_paths || !current_list)
 		return ;
 	z = -1;
 	while (current_list[++z])

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 10:00:48 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:36:49 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,6 @@ void	print_export(char **envp);
 void	free_strs(char **strs);
 void	waitall(t_data *data);
 void	child_pipe_finish(t_ast *ast, t_data *data, int is_pipe);
+void	expand_with_wildcards(char **sub_string);
 
 #endif

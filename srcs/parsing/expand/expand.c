@@ -6,11 +6,12 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:59:51 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/02 04:15:40 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:53:35 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "wildcard.h"
 #include <strings.h>
 
 char	*get_envp(t_data *data, char *str)
@@ -96,6 +97,9 @@ void	extends(char **sub_string, char quote,
 	char	*env;
 
 	i = -1;
+	if (ft_strchr(*sub_string, '*') && quote_after_type != '\"'
+		&& quote_after_type != '\'')
+		expand_with_wildcards(sub_string);
 	while (++i < (int)ft_strlen(*sub_string))
 	{
 		if (*(*sub_string + i) == '$' && quote == '\"')

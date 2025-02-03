@@ -3,6 +3,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -20,6 +23,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -37,6 +43,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -54,6 +63,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -71,6 +83,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -88,6 +103,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -105,6 +123,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -122,6 +143,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -139,6 +163,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -156,6 +183,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -173,6 +203,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -190,6 +223,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -207,6 +243,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -224,6 +263,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -241,6 +283,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -258,6 +303,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -275,6 +323,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -292,6 +343,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -309,6 +363,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -326,6 +383,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -343,6 +403,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -360,6 +423,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -377,6 +443,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -394,6 +463,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -411,6 +483,29 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iincludes/ast",
+   "-Iincludes/debug",
+   "-Iincludes/parsing",
+   "-Iincludes/shell",
+   "-Iincludes",
+   "-g",
+   "-o",
+   ".objs/shell/exec/exec_utils2.o",
+   "-c",
+   "srcs/shell/exec/exec_utils2.c"
+  ],
+  "file": "srcs/shell/exec/exec_utils2.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -428,6 +523,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -445,6 +543,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -462,6 +563,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -479,6 +583,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -496,6 +603,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -513,6 +623,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -530,6 +643,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -547,6 +663,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -564,6 +683,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -581,6 +703,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -598,6 +723,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -615,6 +743,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -632,6 +763,89 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iincludes/ast",
+   "-Iincludes/debug",
+   "-Iincludes/parsing",
+   "-Iincludes/shell",
+   "-Iincludes",
+   "-g",
+   "-o",
+   ".objs/parsing/expand/wildcards/wildcards_pattern.o",
+   "-c",
+   "srcs/parsing/expand/wildcards/wildcards_pattern.c"
+  ],
+  "file": "srcs/parsing/expand/wildcards/wildcards_pattern.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iincludes/ast",
+   "-Iincludes/debug",
+   "-Iincludes/parsing",
+   "-Iincludes/shell",
+   "-Iincludes",
+   "-g",
+   "-o",
+   ".objs/parsing/expand/wildcards/wildcards_segments.o",
+   "-c",
+   "srcs/parsing/expand/wildcards/wildcards_segments.c"
+  ],
+  "file": "srcs/parsing/expand/wildcards/wildcards_segments.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iincludes/ast",
+   "-Iincludes/debug",
+   "-Iincludes/parsing",
+   "-Iincludes/shell",
+   "-Iincludes",
+   "-g",
+   "-o",
+   ".objs/parsing/expand/wildcards/wildcards_utils.o",
+   "-c",
+   "srcs/parsing/expand/wildcards/wildcards_utils.c"
+  ],
+  "file": "srcs/parsing/expand/wildcards/wildcards_utils.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-Iincludes/ast",
+   "-Iincludes/debug",
+   "-Iincludes/parsing",
+   "-Iincludes/shell",
+   "-Iincludes",
+   "-g",
+   "-o",
+   ".objs/parsing/expand/wildcards/wildcards_utils2.o",
+   "-c",
+   "srcs/parsing/expand/wildcards/wildcards_utils2.c"
+  ],
+  "file": "srcs/parsing/expand/wildcards/wildcards_utils2.c"
+ },
+ {
+  "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -649,6 +863,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -666,6 +883,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -683,6 +903,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
@@ -700,6 +923,9 @@
   "directory": "/nfs/homes/sabartho/42/MiniShell/dev_minishell/test4",
   "arguments": [
    "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
    "-Iincludes/ast",
    "-Iincludes/debug",
    "-Iincludes/parsing",
