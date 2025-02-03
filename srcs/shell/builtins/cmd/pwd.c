@@ -14,6 +14,8 @@
 
 int	pwd(t_data *data, t_command *cmd)
 {
+	char	cwd[4096];
+
 	if (*(cmd->cmds_args + 1) && *(*(cmd->cmds_args + 1)) == '-')
 	{
 		no_option(cmd);
@@ -21,6 +23,8 @@ int	pwd(t_data *data, t_command *cmd)
 		exit(2);
 		return (2);
 	}
+	if (!data->pwd)
+		data->pwd = getcwd(cwd, sizeof(cwd));
 	ft_printf("%s\n", data->pwd);
 	exit(0);
 	return (0);

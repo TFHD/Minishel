@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 09:45:31 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:09:23 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	process_token(t_data *data)
 		data->exit_code = 2;
 }
 
-void	process_input(char *prompt, t_data *data)
+int	process_input(char *prompt, t_data *data)
 {
 	char	*input;
 
@@ -79,7 +79,7 @@ void	process_input(char *prompt, t_data *data)
 	if (data->input)
 		add_history(data->input);
 	if (!data->input)
-		return ;
+		return (1);
 	data->token = tokenize_input(data->input);
 	if (data->token && data->token->type != TOKEN_END)
 		process_token(data);
@@ -89,6 +89,7 @@ void	process_input(char *prompt, t_data *data)
 		close(data->infile);
 	data->infile = 0;
 	lp_free(data->input);
+	return (0);
 }
 
 int	main(
@@ -106,8 +107,7 @@ int	main(
 	while (1)
 	{
 		prompt = get_prompt(&data, isatty(0));
-		process_input(prompt, &data);
-		if (!data.input)
+		if (process_input(prompt, &data))
 			break ;
 	}
 	rl_clear_history();
