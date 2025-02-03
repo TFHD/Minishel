@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:42:47 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 09:52:46 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:00:20 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ void	unlink_fd(t_data *data)
 	data->fd = tmp_fd;
 }
 
-static void	not_command3(char **path, t_data *data)
+static void	not_command3(char **path, t_data *data, struct stat st)
 {
-	struct stat	st;
-
 	if (S_ISDIR(st.st_mode))
 	{
 		if (ft_strchr(*path, '/'))
@@ -58,10 +56,8 @@ static void	not_command3(char **path, t_data *data)
 	}
 }
 
-void	not_command2(char **path, t_data *data)
+void	not_command2(char **path, t_data *data, struct stat st)
 {
-	struct stat	st;
-
 	if (access((*path), F_OK) || (stat(*path, &st) != 0))
 	{
 		if (stat(*path, &st) != 0 && ft_strchr(*path, '/'))
@@ -73,7 +69,7 @@ void	not_command2(char **path, t_data *data)
 		data->exit_code = 127;
 	}
 	else
-		not_command3(path, data);
+		not_command3(path, data, st);
 }
 
 void	child_pipe_finish(t_ast *ast, t_data *data, int is_pipe)

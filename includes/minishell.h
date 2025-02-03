@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 09:52:55 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:00:48 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ char	*replace(const char *str, char *env_name, int i, t_data *data);
 void	extends_heredocs(char **sub_string, t_data *data);
 int		token_is_before_invalid_token(t_token *token, t_token *bad_token);
 void	execute_for_pipe(t_ast *ast, t_data *data, int is_pipe);
-void	not_command2(char **path, t_data *data);
+void	not_command2(char **path, t_data *data, struct stat st);
 void	unlink_fd(t_data *data);
 
 char	**env_list_to_char(t_env_list *head, char *remove);
 void	no_option(t_command *cmd);
-int		pwd(t_command *cmd);
+int		pwd(t_data *data, t_command *cmd);
 int		env(t_command *cmd, t_data *data);
 int		echo(t_command *cmd);
 int		redirect(t_ast *ast, t_data *data, int pipe);
@@ -109,7 +109,6 @@ int		is_good_export_name(char *str);
 void	print_export(char **envp);
 void	free_strs(char **strs);
 void	waitall(t_data *data);
-void	not_command2(char **path, t_data *data);
 void	child_pipe_finish(t_ast *ast, t_data *data, int is_pipe);
 
 #endif

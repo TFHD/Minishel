@@ -6,16 +6,14 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:40:00 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 01:05:48 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:58:04 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd(t_command *cmd)
+int	pwd(t_data *data, t_command *cmd)
 {
-	char	cwd[1024];
-
 	if (*(cmd->cmds_args + 1) && *(*(cmd->cmds_args + 1)) == '-')
 	{
 		no_option(cmd);
@@ -23,7 +21,7 @@ int	pwd(t_command *cmd)
 		exit(2);
 		return (2);
 	}
-	ft_printf("%s\n", getcwd(cwd, 1024));
+	ft_printf("%s\n", data->pwd);
 	exit(0);
 	return (0);
 }

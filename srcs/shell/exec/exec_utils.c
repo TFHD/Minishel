@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:15:30 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 09:48:13 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:00:37 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	not_command(char **path, t_data *data)
 		data->exit_code = 126;
 	}
 	else
-		not_command2(path, data);
+		not_command2(path, data, st);
 }
 
 void	no_option(t_command *cmd)

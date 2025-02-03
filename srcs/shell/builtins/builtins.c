@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:17:47 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 06:36:07 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:58:25 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	builtins(t_data *data, t_command *cmd)
 {
 	if (!ft_strcmp(*cmd->cmds_args, "pwd"))
-		data->exit_code = pwd(cmd);
+		data->exit_code = pwd(data, cmd);
 	else if (!ft_strcmp(*cmd->cmds_args, "cd"))
 		data->exit_code = cd(cmd, data);
 	else if (!ft_strcmp(*cmd->cmds_args, "echo"))
