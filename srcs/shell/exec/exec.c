@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 06:29:00 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:52:42 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,7 @@ static void	child_pipe_process(t_ast *ast, t_data *data, int is_pipe)
 			return ;
 		}
 	}
-	close(data->pipefd[0]);
-	close(data->pipefd[1]);
-	if (ast->cmd->redirection)
-		redirect(ast, data, is_pipe);
-	else
-	{
-		if (*ast->cmd->cmds_args)
-			rebuilt_command(ast, data);
-		exec_order(ast, data);
-	}
-	exit(data->exit_code);
+	child_pipe_finish(ast, data, is_pipe);
 }
 
 void	waitall(t_data *data)
@@ -134,5 +124,4 @@ void	do_pipe(t_ast *ast, t_data *data, int is_pipe)
 	}
 	if (WIFEXITED(status))
 		data->exit_code = WEXITSTATUS(status);
-
 }

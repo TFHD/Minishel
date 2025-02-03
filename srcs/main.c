@@ -6,34 +6,11 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 06:04:03 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:45:31 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_strs(char **strs)
-{
-	char	**tmp;
-
-	tmp = strs;
-	while (*tmp)
-		lp_free(*tmp++);
-	lp_free(strs);
-}
-
-void	unlink_fd(t_data *data)
-{
-	int	tmp_fd;
-
-	tmp_fd = data->fd;
-	while (--data->fd >= 0)
-	{
-		unlink(data->fds_here_docs[data->fd]);
-		data->fd--;
-	}
-	data->fd = tmp_fd;
-}
 
 void	init_data(t_data *data, char **envp)
 {
@@ -70,16 +47,58 @@ void	setup_readline(void)
 		rl_prep_term_function = 0;
 }
 
+void	process_token(t_data *data)
+{
+	t_token	*cpy_tokens;
+
+	if (!handle_heredocs(data->token, data))
+	{
+		cpy_tokens = data->token;
+		data->ast = create_ast(&data->token);
+		exec(data->ast, data, 0);
+		waitall(data);
+		free_ast(data->ast);
+	}
+	else
+		data->exit_code = 2;
+}
+
+void	process_input(char *prompt, t_data *data)
+{
+	char	*input;
+
+	input = readline(prompt);
+	data->input = lp_strdup(input);
+	free(input);
+	lp_free(prompt);
+	if (g_received)
+	{
+		data->exit_code = g_received;
+		g_received = 0;
+	}
+	if (data->input)
+		add_history(data->input);
+	if (!data->input)
+		return ;
+	data->token = tokenize_input(data->input);
+	if (data->token && data->token->type != TOKEN_END)
+		process_token(data);
+	if (data->fd != 0)
+		unlink_fd(data);
+	if (data->infile != 0)
+		close(data->infile);
+	data->infile = 0;
+	lp_free(data->input);
+}
+
 int	main(
 	__attribute__ ((unused)) int argc,
 	__attribute__ ((unused)) char **argv,
 	char **envp
 )
 {
-	t_token	*cpy_tokens;
 	t_data	data;
 	char	*prompt;
-	char	*input;
 
 	init_data(&data, envp);
 	signal(SIGINT, signal_handler);
@@ -87,42 +106,9 @@ int	main(
 	while (1)
 	{
 		prompt = get_prompt(&data, isatty(0));
-		input = readline(prompt);
-		data.input = lp_strdup(input);
-		free(input);
-		lp_free(prompt);
-		if (g_received)
-		{
-			data.exit_code = g_received;
-			g_received = 0;
-		}
-		add_history(data.input);
+		process_input(prompt, &data);
 		if (!data.input)
 			break ;
-		data.token = tokenize_input(data.input);
-		if (data.token && data.token->type != TOKEN_END)
-		{
-			if (!handle_heredocs(data.token, &data))
-			{
-				cpy_tokens = data.token;
-				data.ast = create_ast(&data.token);
-			//	print_tokens(cpy_tokens);
-			//	ft_dprintf(2, "\n-----------------------------\n\n");
-			//	__print_tree(data.ast, 0);
-			//	ft_dprintf(2, "\n-----------------------------\n\n");
-				exec(data.ast, &data, 0);
-				waitall(&data);
-				free_ast(data.ast);
-			}
-			else
-				data.exit_code = 2;
-		}
-		if (data.fd != 0)
-			unlink_fd(&data);
-		if (data.infile != 0)
-			close(data.infile);
-		data.infile = 0;
-		lp_free(data.input);
 	}
 	rl_clear_history();
 	if (isatty(0))
