@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 06:03:00 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 09:01:17 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	sort_env(t_env_list *env);
 int		is_good_export_name(char *str);
 void	print_export(char **envp);
 
-char	**expand_wildcards(const char *token);
 void	free_strs(char **strs);
 void	waitall(t_data *data);
 

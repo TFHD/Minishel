@@ -44,6 +44,10 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				shell/exec/redirection/in_out_append.c \
 				shell/exec/redirection/redirect_utils.c \
 				shell/exec/redirection/redirection.c \
+				parsing/expand/wildcards/wildcards_pattern.c \
+				parsing/expand/wildcards/wildcards_segments.c \
+				parsing/expand/wildcards/wildcards_utils.c \
+				parsing/expand/wildcards/wildcards_utils2.c \
 				parsing/expand/wildcards/wildcards.c \
 				debug/ast.c \
 				debug/tokens.c \
