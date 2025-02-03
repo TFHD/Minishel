@@ -6,13 +6,11 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/02 05:46:11 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 03:12:40 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "token.h"
-#include <signal.h>
 
 char	*get_executable_file(char *file_name, int i, int start_i, t_data *data)
 {
@@ -70,6 +68,7 @@ static void	child_pipe_process(t_ast *ast, t_data *data, int is_pipe)
 {
 	if (data->infile != 0)
 	{
+		printf("data infile : %d\n", data->infile);
 		dup2(data->infile, 0);
 		close(data->infile);
 	}
@@ -97,7 +96,7 @@ void	waitall(t_data *data)
 	tmp = data->pipe_fds - 1;
 	while (--data->pipe_fds >= 0)
 	{
-		waitpid(data->pipe_list[data->pipe_fds], &status, NULL);
+		waitpid(data->pipe_list[data->pipe_fds], &status, 0);
 		if (WIFEXITED(status) && data->pipe_fds == tmp)
 			data->exit_code = WEXITSTATUS(status);
 	}

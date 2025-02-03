@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 07:16:33 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:24:35 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,12 @@ int		cmd_exist(char **path_command, t_data *data, t_command *cmd);
 char	*get_executable_file(char *file_name, int i, int start_i, t_data *data);
 int		redirect_in(char *in_file, int *error);
 int		redirect_out_add(char *out_file, int type, int *error);
-void	handle_heredocs(t_token *token, t_data *data);
+int		handle_heredocs(t_token *token, t_data *data);
 void	generate_heredoc_name(char *buffer, int size);
 char	*get_envp(t_data *data, char *str);
 char	*replace(const char *str, char *env_name, int i, t_data *data);
 void	extends_heredocs(char **sub_string, t_data *data);
+int	token_is_before_invalid_token(t_token *token, t_token *bad_token);
 
 char	**env_list_to_char(t_env_list *head, char *remove);
 void	no_option(t_command *cmd);
@@ -87,7 +88,7 @@ int		pwd(t_command *cmd);
 int		env(t_command *cmd, t_data *data);
 int		echo(t_command *cmd);
 int		redirect(t_ast *ast, t_data *data, int pipe);
-int		ft_exit(t_command *cmd);
+int		ft_exit(t_command *cmd, t_data *data);
 int		cd(t_command *cmd, t_data *data);
 void	set_env(t_env_list *env_list, char *env_name, char *new);
 int		unset(t_command *cmd, t_data **data);

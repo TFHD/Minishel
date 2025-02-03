@@ -6,18 +6,20 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 06:56:29 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 06:48:43 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:07:48 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_heredocs(t_token *token, t_data *data)
+int	handle_heredocs(t_token *token, t_data *data)
 {
 	t_token	*token_tmp;
+	int		error;
 
-	token_tmp = token;
-	while (token->type != TOKEN_END)
+	error = validate_token(token, &token_tmp);
+	while (token->type != TOKEN_END
+		&& token_is_before_invalid_token(token, token_tmp))
 	{
 		if (token->type == TOKEN_HEREDOC
 			&& (token->next->type != TOKEN_END
@@ -28,9 +30,11 @@ void	handle_heredocs(t_token *token, t_data *data)
 		}
 		token = token->next;
 	}
-	token = token_tmp;
 	clean_redir(data->redirects.in, -1, -1);
 	data->redirects.in = -1;
+	if (!error)
+		return (2);
+	return (0);
 }
 
 void	expand_heredocs(char *input, t_data *data, int temp_fd)

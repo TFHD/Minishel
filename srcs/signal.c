@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:48:23 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 07:33:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:18:52 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	accurate_signal(int status, t_data *data)
 		data->exit_code = 128 + WTERMSIG(status);
 		if (data->exit_code == 130)
 			ft_dprintf(2, "\n");
-		else
+		else if (status == 3)
 			ft_dprintf(2, "Quit\n");
 	}
 

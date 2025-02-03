@@ -6,12 +6,12 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 05:54:09 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 07:19:17 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 03:12:49 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
+#include "token.h"
 
 char	**prepare_exec_order(t_ast *ast, t_data *data, char **path_command)
 {
@@ -28,6 +28,7 @@ char	**prepare_exec_order(t_ast *ast, t_data *data, char **path_command)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		rl_clear_history();
 		execve(*path_command, ast->cmd->cmds_args, env);
 	}
 	else

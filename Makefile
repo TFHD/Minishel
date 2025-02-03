@@ -53,7 +53,7 @@ OBJS		:=	$(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))
 
 CC			:= cc
 
-FLAGS 		:= -Iincludes/ast -Iincludes/debug -Iincludes/parsing -Iincludes/shell -Iincludes -g
+FLAGS 		:= -Wall -Werror -Wextra -Iincludes/ast -Iincludes/debug -Iincludes/parsing -Iincludes/shell -Iincludes -g
 
 LIB			:= libft/libft.a
 

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 06:57:10 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 06:50:58 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:55:09 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,18 @@ void	extends_heredocs(char **sub_string, t_data *data)
 			i += ft_strlen(env) - 1;
 		}
 	}
+}
+
+int	token_is_before_invalid_token(t_token *token, t_token *bad_token)
+{
+	t_token_type	bad_type;
+	char			*bad_value;
+	if (bad_token == NULL)
+		return (1);
+	bad_value = bad_token->value;
+	bad_type = bad_token->type;
+	if (token->type == bad_type && token->value == bad_value)
+		return (0);
+	return (1);
+
 }

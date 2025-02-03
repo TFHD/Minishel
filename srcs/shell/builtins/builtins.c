@@ -6,7 +6,7 @@
 /*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:17:47 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/02 06:28:51 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:03:33 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	builtins(t_data *data, t_command *cmd)
 	else if (!ft_strcmp(*cmd->cmds_args, "env"))
 		data->exit_code = env(cmd, data);
 	else if (!ft_strcmp(*cmd->cmds_args, "exit"))
-		data->exit_code = ft_exit(cmd);
+		data->exit_code = ft_exit(cmd, data);
 	else if (!ft_strcmp(*cmd->cmds_args, "export"))
 		data->exit_code = export(&data, cmd);
 	else if (!ft_strcmp(*cmd->cmds_args, "unset"))

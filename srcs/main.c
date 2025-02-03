@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 05:47:16 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/03 02:24:48 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ void	free_strs(char **strs)
 
 void	unlink_fd(t_data *data)
 {
-	int	temp;
-
-	temp = data->fd;
-	while(--data->fd >= 0)
+	while(data->fd >= 0)
+	{
 		unlink(data->fds_here_docs[data->fd]);
-	data->fd = temp;
+		ft_bzero(data->fds_here_docs[data->fd], 11);
+		data->fd--;
+	}
+	data->fd = 0;
 }
 
 /*
@@ -104,18 +105,16 @@ int	main(
 		if (!data.input)
 			break ;
 		data.token = tokenize_input(data.input);
-		if (data.token)
-			handle_heredocs(data.token, &data);
 		if (data.token && data.token->type != TOKEN_END)
 		{
-			if (validate_token(data.token))
+			if (!handle_heredocs(data.token, &data))
 			{
 				cpy_tokens = data.token;
 				data.ast = create_ast(&data.token);
-			//	print_tokens(cpy_tokens);
-			//	ft_dprintf(2, "\n-----------------------------\n\n");
-			//	__print_tree(data.ast, 0);
-			//	ft_dprintf(2, "\n-----------------------------\n\n");
+				print_tokens(cpy_tokens);
+				ft_dprintf(2, "\n-----------------------------\n\n");
+				__print_tree(data.ast, 0);
+				ft_dprintf(2, "\n-----------------------------\n\n");
 				exec(data.ast, &data, 0);
 				waitall(&data);
 				free_ast(data.ast);

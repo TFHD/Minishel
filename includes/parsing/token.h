@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:30:36 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/31 03:35:42 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:30:55 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ int				get_operator_type(const char *input,
 char			*extract_arg(const char *input, int *index);
 
 t_token			*tokenize_input(const char *input);
-int				validate_token(t_token *token);
+int				validate_token(t_token *token, t_token **token_find_error);
 
 #endif

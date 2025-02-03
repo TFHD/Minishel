@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:20:12 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/31 03:14:12 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:49:39 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int	check_subshell(t_token *current)
 	return (subshell == 0);
 }
 
-int	validate_token(t_token *token)
+int	validate_token(t_token *token, t_token **token_find_error)
 {
 	t_token	*current;
 	t_token	*previous;
@@ -116,14 +116,16 @@ int	validate_token(t_token *token)
 		return (0);
 	while (current)
 	{
-		if (!check_logical_operator(current, previous))
+		if (!check_logical_operator(current, previous)
+			|| !check_pipe(current, previous)
+			|| !check_redirect(current))
+		{
+			*token_find_error = current;
 			return (0);
-		else if (!check_pipe(current, previous))
-			return (0);
-		else if (!check_redirect(current))
-			return (0);
+		}
 		previous = current;
 		current = current->next;
 	}
+	*token_find_error = NULL;
 	return (1);
 }
