@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:17:47 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/01 23:08:07 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:07:46 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ void	free_env(char **env)
 	while (env[i])
 		lp_free(env[i++]);
 	lp_free(env);
-}
-
-int	is_bad_args(char *str)
-{
-	while (*str)
-	{
-		if (!ft_isalpha(*str) && !ft_isdigit(*str) && *str != '_'
-			&& *str != '=')
-			return (1);
-		str++;
-	}
-	return (0);
 }
 
 int	unset(t_command *cmd, t_data **data)

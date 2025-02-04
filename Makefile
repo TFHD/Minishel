@@ -50,8 +50,6 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				parsing/expand/wildcards/wildcards_utils.c \
 				parsing/expand/wildcards/wildcards_utils2.c \
 				parsing/expand/wildcards/wildcards.c \
-				debug/ast.c \
-				debug/tokens.c \
 				signal.c \
 				main.c \
 			

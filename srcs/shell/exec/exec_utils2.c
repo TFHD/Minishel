@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:42:47 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 04:53:26 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:05:23 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ void	not_command2(char **path, t_data *data, struct stat st)
 		not_command3(path, data, st);
 }
 
-void	child_pipe_finish(t_ast *ast, t_data *data, int is_pipe)
+void	child_pipe_finish(t_ast *ast, t_data *data)
 {
 	close(data->pipefd[0]);
 	close(data->pipefd[1]);
 	if (ast->cmd->redirection)
-		redirect(ast, data, is_pipe);
+		redirect(ast, data);
 	else
 	{
 		if (*ast->cmd->cmds_args)

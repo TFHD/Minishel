@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:35:33 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 06:40:57 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:14:40 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ char	**apply_pattern_segments(char **start_paths, char **segments, int i);
 char	**split_pattern_on_slash(const char *pattern);
 
 char	**expand_wildcards(const char *token);
+void	expand_with_wildcards(char **sub_string);
+void	sort_wilcrads(char **expand_wc);
 
 #endif

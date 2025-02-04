@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 06:45:01 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:06:16 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,15 @@ void	setup_readline(void)
 		rl_prep_term_function = 0;
 }
 
+/*
+*	FOR DEBUG ONLY
+*	t_token	*cpy_tokens;
+*	cpy_tokens = data->token; (before create_ast)
+*/
 void	process_token(t_data *data)
 {
-	t_token	*cpy_tokens;
-
 	if (!handle_heredocs(data->token, data))
 	{
-		cpy_tokens = data->token;
 		data->ast = create_ast(&data->token);
 		exec(data->ast, data, 0);
 		waitall(data);

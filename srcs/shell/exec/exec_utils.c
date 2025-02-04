@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:15:30 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 03:08:03 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:08:25 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,4 @@ int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 		return (1);
 	}
 	return (0);
-}
-
-char	**add_path(char **env)
-{
-	char	**env_cpy;
-	int		i;
-
-	i = 0;
-	while (env[i])
-		i++;
-	env_cpy = lp_alloc(sizeof(char *), (i + 2));
-	i = 0;
-	while (env[i])
-	{
-		env_cpy[i] = lp_strdup(env[i]);
-		i++;
-	}
-	env_cpy[i++] = lp_strdup("PATH=.");
-	env_cpy[i] = 0;
-	i = 0;
-	while (env[i])
-		lp_free(env[i++]);
-	return (env_cpy);
 }

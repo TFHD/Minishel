@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 06:39:15 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:05:30 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	child_pipe_process(t_ast *ast, t_data *data, int is_pipe)
 			return ;
 		}
 	}
-	child_pipe_finish(ast, data, is_pipe);
+	child_pipe_finish(ast, data);
 }
 
 void	waitall(t_data *data)

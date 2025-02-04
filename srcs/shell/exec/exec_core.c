@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 05:54:09 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 05:39:39 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:04:52 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	exec_node(t_ast *ast, t_data *data, int pipe)
 	else
 	{
 		if (ast->cmd->redirection)
-			redirect(ast, data, pipe);
+			redirect(ast, data);
 		else
 		{
 			if (*ast->cmd->cmds_args)
