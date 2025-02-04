@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 16:39:20 by albernar          #+#    #+#             */
-/*   Updated: 2025/01/28 04:01:23 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:28:53 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	get_command_len(t_token *token)
 	int	size;
 
 	size = 0;
-	while (token->type != TOKEN_END && !(token->type >= TOKEN_PIPE
+	while (token && token->type != TOKEN_END && !(token->type >= TOKEN_PIPE
 			&& token->type <= TOKEN_SUBSHELL_CLOSE))
 	{
 		if (token->type >= TOKEN_REDIRECT_IN && token->type <= TOKEN_HEREDOC)
@@ -33,29 +33,29 @@ static int	get_command_len(t_token *token)
 	return (size);
 }
 
-t_command	*command_builder(t_token **token)
+t_command	*command_builder(t_token **tkn)
 {
 	int			size;
 	t_command	*command;
 
 	command = lp_alloc(sizeof(t_command), 1);
 	size = 0;
-	command->cmds_args = lp_alloc(sizeof(char *), get_command_len(*token) + 1);
-	while ((*token)->type != TOKEN_END && !((*token)->type >= TOKEN_PIPE
-			&& (*token)->type <= TOKEN_SUBSHELL_CLOSE))
+	command->cmds_args = lp_alloc(sizeof(char *), get_command_len(*tkn) + 1);
+	while (*tkn && (*tkn)->type != TOKEN_END && !((*tkn)->type >= TOKEN_PIPE
+			&& (*tkn)->type <= TOKEN_SUBSHELL_CLOSE))
 	{
-		if ((*token)->type >= TOKEN_REDIRECT_IN
-			&& (*token)->type <= TOKEN_HEREDOC)
+		if ((*tkn)->type >= TOKEN_REDIRECT_IN
+			&& (*tkn)->type <= TOKEN_HEREDOC)
 		{
-			add_redirect_node(&command->redirection, *token);
-			*token = (*token)->next;
-			if (*token)
-				*token = (*token)->next;
+			add_redirect_node(&command->redirection, *tkn);
+			*tkn = (*tkn)->next;
+			if (*tkn)
+				*tkn = (*tkn)->next;
 		}
-		else if ((*token)->type <= TOKEN_ARGUMENT)
+		else if ((*tkn)->type <= TOKEN_ARGUMENT)
 		{
-			command->cmds_args[size++] = lp_strdup((*token)->value);
-			*token = (*token)->next;
+			command->cmds_args[size++] = lp_strdup((*tkn)->value);
+			*tkn = (*tkn)->next;
 		}
 	}
 	command->cmds_args[size] = NULL;

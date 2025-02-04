@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_bonus.h                                         :+:      :+:    :+:   */
+/*   wildcard_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 02:35:33 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 09:16:38 by sabartho         ###   ########.fr       */
+/*   Created: 2025/02/04 10:26:58 by albernar          #+#    #+#             */
+/*   Updated: 2025/02/04 10:27:00 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARD_H
-# define WILDCARD_H
+#ifndef WILDCARD_BONUS_H
+# define WILDCARD_BONUS_H
 # include "minishell.h"
 
 // Utils
