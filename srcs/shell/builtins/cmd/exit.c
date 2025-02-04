@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 05:45:24 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:07:15 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	error_in_exit(t_command *cmd, int is_overflow)
 	return (0);
 }
 
-int	ft_exit(t_command *cmd, t_data *data)
+void	ft_exit(t_command *cmd, t_data *data)
 {
 	int			is_overflow;
 	long long	code;
@@ -86,20 +86,21 @@ int	ft_exit(t_command *cmd, t_data *data)
 	if (!cmd->cmds_args[1])
 	{
 		ft_dprintf(2, "exit\n");
+		rl_clear_history();
 		exit(data->exit_code);
-		return (data->exit_code);
 	}
 	code = ft_atoi_exit(cmd->cmds_args[1], &is_overflow, 0);
 	exit_error = error_in_exit(cmd, is_overflow);
 	if (exit_error)
 	{
 		if (exit_error == 2)
+			rl_clear_history();
+		if (exit_error == 2)
 			ft_dprintf(2, "exit\n");
 		if (exit_error == 2)
 			exit (exit_error);
-		return (exit_error);
 	}
+	rl_clear_history();
 	ft_dprintf(2, "exit\n");
 	exit(code % 256);
-	return (code % 256);
 }
