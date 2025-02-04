@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 07:18:12 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 08:13:35 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <readline/readline.h>
 # include <sys/wait.h>
 # include <sys/types.h>
-# include <stdio.h>
 # include <sys/stat.h>
 # include <signal.h>
 # include <fcntl.h>

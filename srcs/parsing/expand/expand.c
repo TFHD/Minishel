@@ -6,30 +6,13 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:59:51 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 06:07:38 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:45:29 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "wildcard.h"
 #include <strings.h>
-
-char	*get_envp(t_data *data, char *str)
-{
-	char	*env_name;
-	char	*env;
-	int		i;
-
-	i = 1;
-	while (ft_isalnum(str[i]) || str[i] == '_')
-		i++;
-	env_name = lp_substr(str, 1, i - 1);
-	env = get_env(data->env, env_name);
-	lp_free(env_name);
-	if (!env)
-		return (0);
-	return (env);
-}
 
 int	get_size_s_recieved(int exit_error)
 {
@@ -90,6 +73,8 @@ char	*replace(const char *str,
 	return (replace);
 }
 
+#ifdef BONUS
+
 void	extends(char **sub_string, char quote,
 	char quote_after_type, t_data *data)
 {
@@ -117,3 +102,32 @@ void	extends(char **sub_string, char quote,
 		}
 	}
 }
+
+#else
+
+void	extends(char **sub_string, char quote,
+	char quote_after_type, t_data *data)
+{
+	int		i;
+	char	*env;
+
+	i = -1;
+	while (++i < (int)ft_strlen(*sub_string))
+	{
+		if (*(*sub_string + i) == '$' && quote == '\"')
+		{
+			if ((ft_isalnum(*(*sub_string + i + 1))
+					|| quote_after_type == '\''
+					|| *(*sub_string + i + 1) == '?'
+					|| *(*sub_string + i + 1) == '_'))
+			{
+				env = get_envp(data, *sub_string + i);
+				*sub_string = replace(*sub_string,
+						*sub_string + i, i, data);
+				i += ft_strlen(env) - 1;
+			}
+		}
+	}
+}
+
+#endif

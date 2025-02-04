@@ -1,4 +1,5 @@
 NAME		:= 	minishell
+NAME_BONUS	:= 	minishell_bonus
 
 OBJS_DIR	:= .objs/
 
@@ -45,19 +46,21 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				shell/exec/redirection/in_out_append.c \
 				shell/exec/redirection/redirect_utils.c \
 				shell/exec/redirection/redirection.c \
-				parsing/expand/wildcards/wildcards_pattern.c \
-				parsing/expand/wildcards/wildcards_segments.c \
-				parsing/expand/wildcards/wildcards_utils.c \
-				parsing/expand/wildcards/wildcards_utils2.c \
-				parsing/expand/wildcards/wildcards.c \
 				signal.c \
 				main.c \
+
+SRCS_BONUS	:=	parsing/expand/wildcards/wildcards_pattern_bonus.c \
+				parsing/expand/wildcards/wildcards_segments_bonus.c \
+				parsing/expand/wildcards/wildcards_utils_bonus.c \
+				parsing/expand/wildcards/wildcards_utils2_bonus.c \
+				parsing/expand/wildcards/wildcards_bonus.c \
 			
 OBJS		:=	$(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS))
+OBJS_BONUS	:=	$(patsubst %.c, $(OBJS_DIR)%.o, $(SRCS_BONUS))
 
 CC			:= cc
 
-FLAGS 		:= -Wall -Werror -Wextra -Iincludes/ast -Iincludes/debug -Iincludes/parsing -Iincludes/shell -Iincludes -g
+FLAGS		:= -Wall -Werror -Wextra -Iincludes/ast -Iincludes/debug -Iincludes/parsing -Iincludes/shell -Iincludes -g
 
 LIB			:= libft/libft.a
 
@@ -77,13 +80,29 @@ N_OBJS		:= $(shell find $(DIR) -type f -name $(OBJS) 2>/dev/null | wc -l)
 OBJS_TOTAL	:= $(shell echo $$(( $(OBJS_TOTAL) - $(N_OBJS) )))
 CURR_OBJ	= 0
 
-all: $(OBJS_DIR) ${NAME}
+all: $(OBJS_DIR) $(NAME)
+
+bonus: $(OBJS_DIR) $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJS) $(LIB)
+	@mkdir -p .objs/parsing/expand/wildcards
+	@$(CC) $(FLAGS) -o .objs/parsing/expand/wildcards/wildcards_pattern_bonus.o -c ./srcs/parsing/expand/wildcards/wildcards_pattern_bonus.c
+	@$(CC) $(FLAGS) -o .objs/parsing/expand/wildcards/wildcards_segments_bonus.o -c ./srcs/parsing/expand/wildcards/wildcards_segments_bonus.c
+	@$(CC) $(FLAGS) -o .objs/parsing/expand/wildcards/wildcards_utils_bonus.o -c ./srcs/parsing/expand/wildcards/wildcards_utils_bonus.c
+	@$(CC) $(FLAGS) -o .objs/parsing/expand/wildcards/wildcards_utils2_bonus.o -c ./srcs/parsing/expand/wildcards/wildcards_utils2_bonus.c
+	@$(CC) $(FLAGS) -o .objs/parsing/expand/wildcards/wildcards_bonus.o -c ./srcs/parsing/expand/wildcards/wildcards_bonus.c
+	@${CC} ${FLAGS} -D BONUS=1 -o .objs/parsing/expand/expand.o -c ./srcs/parsing/expand/expand.c
+	@${CC} ${FLAGS} -D BONUS=1 -o .objs/shell/exec/exec_core.o -c ./srcs/shell/exec/exec_core.c
+	@${CC} -o ${NAME_BONUS} ${OBJS} $(OBJS_BONUS) ${LIB} -lreadline -D BONUS=1
+	@printf "$(_BOLD)$(NAME_BONUS)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n\n"
 
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(addprefix $(OBJS_DIR), $(dir $(SRCS)))
 
 ${NAME}: ${OBJS} ${LIB}
+	@${CC} ${FLAGS} -o .objs/parsing/expand/expand.o -c ./srcs/parsing/expand/expand.c
+	@${CC} ${FLAGS} -o .objs/shell/exec/exec_core.o -c ./srcs/shell/exec/exec_core.c
 	@${CC} -o ${NAME} ${OBJS} ${LIB} -lreadline
 	@printf "$(_BOLD)$(NAME)$(_RESET) compiled $(_GREEN)$(_BOLD)successfully$(_RESET)\n\n"
 
@@ -96,7 +115,7 @@ ${OBJS_DIR}%.o: ${DIR}%.c
 	@$(eval CURR_OBJ=$(shell echo $$(( $(CURR_OBJ) + 1 ))))
 	@$(eval PERCENT=$(shell echo $$(( $(CURR_OBJ) * 100 / $(OBJS_TOTAL) ))))
 	@printf "$(_GREEN)($(_BOLD)%3s%%$(_RESET)$(_GREEN)) $(_RESET)Compiling $(_BOLD)$(_PURPLE)$<$(_RESET)\n" "$(PERCENT)"
-	
+
 clean:
 	@rm -rf ${OBJS_DIR}
 	@make --no-print-directory -C libft clean
@@ -104,9 +123,10 @@ clean:
 
 fclean: clean
 	@rm -f ${NAME}
+	@rm -f ${NAME_BONUS}
 	@make --no-print-directory -C libft clean fclean
 	@printf "Cleaned $(_BOLD)$(NAME)$(_RESET) !\n\n"
 
 re: fclean all
 
-.PHONY: clean fclean re all
+.PHONY: bonus clean fclean re all

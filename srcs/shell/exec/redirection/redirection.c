@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:14:46 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 06:34:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:54:10 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	redirect_parser(t_data *data, int *error,
 		clean_redir(data->redirects.in, -1, -1);
 		data->redirects.in = redirect_in(data->fds_here_docs[fd_here_docs++],
 				error);
-		printf("fd_here : %d\n", fd_here_docs);
 	}
 }
 

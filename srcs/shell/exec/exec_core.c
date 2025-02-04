@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 05:54:09 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 07:04:52 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:24:52 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static void	exec_node(t_ast *ast, t_data *data, int pipe)
 	}
 }
 
+#ifdef BONUS
+
 void	exec(t_ast *ast, t_data *data, int pipe)
 {
 	if (!ast)
@@ -105,3 +107,32 @@ void	exec(t_ast *ast, t_data *data, int pipe)
 			exec(ast->right, data, pipe);
 	}
 }
+
+#else
+
+void	exec(t_ast *ast, t_data *data, int pipe)
+{
+	if (!ast)
+		return ;
+	if (ast->type >= TOKEN_PIPE)
+	{
+		if (ast->type == TOKEN_PIPE)
+			exec(ast->left, data, pipe + 1);
+		else
+			exec(ast->left, data, pipe);
+	}
+	data->redirects.in = -1;
+	data->redirects.append = -1;
+	data->redirects.out = -1;
+	exec_node(ast, data, pipe);
+	if (ast->type == TOKEN_PIPE)
+	{
+		if (ast->type == TOKEN_PIPE
+			&& pipe == 0 && ast->right->type == TOKEN_COMMAND)
+			exec(ast->right, data, -1);
+		else
+			exec(ast->right, data, pipe);
+	}
+}
+
+#endif

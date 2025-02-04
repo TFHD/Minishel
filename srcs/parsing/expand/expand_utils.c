@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sabartho <sabartho@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 05:46:34 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 06:07:10 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 07:45:36 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_envp(t_data *data, char *str)
+{
+	char	*env_name;
+	char	*env;
+	int		i;
+
+	i = 1;
+	while (ft_isalnum(str[i]) || str[i] == '_')
+		i++;
+	env_name = lp_substr(str, 1, i - 1);
+	env = get_env(data->env, env_name);
+	lp_free(env_name);
+	if (!env)
+		return (0);
+	return (env);
+}
 
 int	ft_strcmp_ic(char *s1, char *s2)
 {
