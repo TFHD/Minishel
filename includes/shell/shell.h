@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 03:33:29 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 08:15:58 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:28:47 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_env_list
 {
 	void				*content;
 	struct s_env_list	*next;
-	struct s_env_list	*prev;
 }						t_env_list;
 // ENV
 t_env_list	*create_env_node(void *content);

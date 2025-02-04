@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 19:46:43 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 07:08:03 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:36:28 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ char	*get_env(t_env_list *env_list, char *env_name)
 
 	if (!env_list)
 		return (NULL);
-	current = env_list->next;
+	current = env_list;
 	env_name_size = ft_strlen(env_name);
-	while (current != env_list)
+	while (current)
 	{
 		name = get_env_name((char *)current->content);
 		if (!ft_strcmp(name, env_name))
@@ -55,9 +55,9 @@ void	set_env(t_env_list *env_list, char *env_name, char *new)
 
 	if (!env_list)
 		return ;
-	current = env_list->next;
+	current = env_list;
 	env_name_size = ft_strlen(env_name);
-	while (current != env_list)
+	while (current)
 	{
 		if (ft_strnstr((char *)current->content, env_name, env_name_size))
 		{
@@ -79,17 +79,17 @@ char	**env_list_to_char(t_env_list *head, char *remove)
 	t_env_list	*tmp;
 	int			i;
 
-	i = 1;
-	current = head->next;
-	while (current != head)
+	i = 0;
+	current = head;
+	while (current)
 	{
 		current = current->next;
 		i++;
 	}
 	envp = lp_alloc(sizeof(char *), i + 1);
-	current = head->next;
+	current = head;
 	i = 0;
-	while (current != head)
+	while (current)
 	{
 		tmp = current;
 		current = current->next;
