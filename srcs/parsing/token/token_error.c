@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 10:20:12 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/02 22:49:39 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:58:38 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,28 +81,32 @@ static int	check_redirect(t_token *curr)
 	return (1);
 }
 
-static int	check_subshell(t_token *current)
+static int	check_subshell(t_token *c, int subsh)
 {
-	int	subshell;
-
-	subshell = 0;
-	while (current)
+	while (c)
 	{
-		if (current->type == TOKEN_SUBSHELL_OPEN)
-			subshell++;
-		else if (current->type == TOKEN_SUBSHELL_CLOSE)
-			subshell--;
-		if (subshell <= -1)
+		if (c->type == TOKEN_SUBSHELL_OPEN)
+			subsh++;
+		else if (c->type == TOKEN_SUBSHELL_CLOSE)
+			subsh--;
+		if (((c->type == TOKEN_SUBSHELL_OPEN)
+				&& c->next && (c->next->type == TOKEN_SUBSHELL_CLOSE))
+			|| ((c->type == TOKEN_SUBSHELL_CLOSE)
+				&& c->next && (c->next->type == TOKEN_SUBSHELL_OPEN))
+			|| ((c->type == TOKEN_SUBSHELL_CLOSE)
+				&& c->next && (c->next->type == TOKEN_ARGUMENT)) || subsh < 0)
 		{
 			ft_dprintf(2, SYNTAX_ERROR "unexpected token near `%s'\n",
-				current->value);
+				c->value);
 			return (0);
 		}
-		current = current->next;
+		c = c->next;
 	}
-	if (subshell != 0)
+	if (subsh != 0)
 		ft_dprintf(2, SYNTAX_ERROR "unmatched `('\n");
-	return (subshell == 0);
+	if (subsh != 0)
+		return (0);
+	return (1);
 }
 
 int	validate_token(t_token *token, t_token **token_find_error)
@@ -112,7 +116,7 @@ int	validate_token(t_token *token, t_token **token_find_error)
 
 	current = token;
 	previous = NULL;
-	if (!check_subshell(current))
+	if (!check_subshell(current, 0))
 		return (0);
 	while (current)
 	{
