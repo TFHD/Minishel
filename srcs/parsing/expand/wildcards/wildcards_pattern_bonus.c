@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards_pattern.c                                :+:      :+:    :+:   */
+/*   wildcards_pattern_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:13:14 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 06:41:06 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:17:59 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "wildcard_bonus.h"
 
 static char	*finish_split_pattern(const char *pattern, int i, int start)
 {

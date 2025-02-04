@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards_segments.c                               :+:      :+:    :+:   */
+/*   wildcards_segments_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:24:57 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 06:41:15 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:17:59 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "wildcard_bonus.h"
 
 static void	add_to_results(char ***results, char *fullpath, int *count)
 {

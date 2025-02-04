@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards_utils.c                                  :+:      :+:    :+:   */
+/*   wildcards_utils_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:06:38 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 08:58:48 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:17:59 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "wildcard_bonus.h"
 
 int	is_hidden(const char *filename)
 {

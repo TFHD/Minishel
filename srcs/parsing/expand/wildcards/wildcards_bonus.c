@@ -6,11 +6,11 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:47:40 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 09:18:52 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:17:59 by albernar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "wildcard_bonus.h"
 
 static void	process_relative_results(char **res)
 {
