@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 07:05:30 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 08:41:16 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	waitall(t_data *data)
 		if (WIFEXITED(status) && data->pipe_fds == tmp)
 			data->exit_code = WEXITSTATUS(status);
 	}
+	data->pipe_fds = 0;
 }
 
 void	do_pipe(t_ast *ast, t_data *data, int is_pipe)

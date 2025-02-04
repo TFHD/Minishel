@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 05:46:34 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 07:45:36 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:51:03 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,40 +29,61 @@ char	*get_envp(t_data *data, char *str)
 	return (env);
 }
 
+int	ft_ignorecase_strcmp(const char *s1, const char *s2)
+{
+	char	c1;
+	char	c2;
+
+	while (*s1 && *s2)
+	{
+		c1 = *s1;
+		c2 = *s2;
+		if (c1 >= 'A' && c1 <= 'Z')
+			c1 += 'a' - 'A';
+		if (c2 >= 'A' && c2 <= 'Z')
+			c2 += 'a' - 'A';
+		if (c1 != c2)
+			return ((unsigned char)c1 - (unsigned char)c2);
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
 int	ft_strcmp_ic(char *s1, char *s2)
 {
-	char	*low_s1;
-	char	*low_s2;
-
-	low_s1 = lp_strdup(s1);
-	low_s2 = lp_strdup(s2);
-	ft_strtolower(low_s1);
-	ft_strtolower(low_s2);
-	if (ft_strcmp(low_s1, low_s2) > 0)
+	if (ft_ignorecase_strcmp(s1, s2) > 0)
 		return (1);
 	return (0);
 }
 
-void	sort_wilcrads(char **expand_wc)
+void	swap_elem(char **x, char **y)
 {
-	char	*tmp;
-	size_t	i;
-	size_t	j;
+	char	*temp;
 
-	i = 0;
-	while (expand_wc[i])
+	temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+int	partition(char **content, int start, int end)
+{
+	char	*pivot;
+	int		start_tab;
+
+	start_tab = start;
+	pivot = content[start];
+	start++;
+	while (start <= end)
 	{
-		j = i + 1;
-		while (expand_wc[j])
-		{
-			if (ft_strcmp_ic(expand_wc[i], expand_wc[j]) > 0)
-			{
-				tmp = expand_wc[i];
-				expand_wc[i] = expand_wc[j];
-				expand_wc[j] = tmp;
-			}
-			j++;
-		}
-		i++;
+		while (start <= end
+			&& !(ft_ignorecase_strcmp(content[start], pivot) > 0))
+			start++;
+		while (start <= end && (ft_ignorecase_strcmp(content[end], pivot) > 0))
+			end--;
+		if (start < end)
+			swap_elem(content + start, content + end);
 	}
+	swap_elem(content + start_tab, content + end);
+	return (end);
 }

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 08:13:35 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:16:58 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_data
 	t_redirects	redirects;
 	int			fd;
 	char		fds_here_docs[1024][11];
-	int			pipe_list[1024];
+	int			pipe_list[8192];
 	int			pipe_fds;
 	int			pipefd[2];
 	int			infile;

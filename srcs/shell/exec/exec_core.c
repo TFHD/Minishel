@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 05:54:09 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 07:24:52 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 08:38:12 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**prepare_exec_order(t_ast *ast, t_data *data, char **path_command)
 		waitpid(pid, &status, 0);
 		signal(SIGINT, signal_handler);
 	}
-	if (path_command)
+	if (*path_command)
 		accurate_signal(status, data);
 	return (env);
 }

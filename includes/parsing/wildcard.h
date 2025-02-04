@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:35:33 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 08:15:31 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:16:38 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**split_pattern_on_slash(const char *pattern);
 
 char	**expand_wildcards(const char *token);
 void	expand_with_wildcards(char **sub_string);
-void	sort_wilcrads(char **expand_wc);
+int		partition(char **content, int start, int end);
+void	sort_wildcards(char **stack_content, int start, int end);
 
 #endif

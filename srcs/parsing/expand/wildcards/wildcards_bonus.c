@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.c                                        :+:      :+:    :+:   */
+/*   wildcards_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:47:40 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 06:41:27 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:18:52 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,33 @@ char	**expand_wildcards(const char *token)
 	return (expanded);
 }
 
+void	sort_wildcards(char **stack_content, int start, int end)
+{
+	int	pivot;
+
+	if (start < end)
+	{
+		pivot = partition(stack_content, start, end);
+		sort_wildcards(stack_content, start, pivot - 1);
+		sort_wildcards(stack_content, pivot + 1, end);
+	}
+}
+
 void	expand_with_wildcards(char **sub_string)
 {
 	char	**expand_wc;
 	char	*sub_cpy;
 	char	*res;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	sub_cpy = lp_strdup(*sub_string);
 	expand_wc = expand_wildcards(sub_cpy);
-	sort_wilcrads(expand_wc);
+	while (expand_wc[j])
+		j++;
+	sort_wildcards(expand_wc, 0, j - 1);
 	if (expand_wc[0])
 		res = lp_strdup(expand_wc[0]);
 	i++;
