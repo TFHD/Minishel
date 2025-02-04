@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 05:54:09 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 10:33:58 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 05:39:39 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void	exec(t_ast *ast, t_data *data, int pipe)
 		else
 			exec(ast->left, data, pipe);
 	}
+	data->redirects.in = -1;
+	data->redirects.append = -1;
+	data->redirects.out = -1;
 	exec_node(ast, data, pipe);
 	if ((data->exit_code == 0 && ast->type == TOKEN_LOGICAL_AND)
 		|| (data->exit_code != 0 && ast->type == TOKEN_LOGICAL_OR)

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:14:46 by sabartho          #+#    #+#             */
-/*   Updated: 2025/01/31 07:13:02 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:22:35 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	redirect_parser(t_data *data, int *error,
 	t_redirection *redirecti, char *value)
 {
-	static int	fd_here_docs = 0;
+	static int	fd_here_docs;
 
 	if (redirecti->type == TOKEN_REDIRECT_OUT)
 	{
@@ -36,9 +36,9 @@ void	redirect_parser(t_data *data, int *error,
 	if (redirecti->type == TOKEN_HEREDOC)
 	{
 		clean_redir(data->redirects.in, -1, -1);
-		data->redirects.in = redirect_in(data->fds_here_docs[fd_here_docs],
+		data->redirects.in = redirect_in(data->fds_here_docs[fd_here_docs++],
 				error);
-		fd_here_docs++;
+		printf("fd_here : %d\n", fd_here_docs);
 	}
 }
 

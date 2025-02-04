@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 03:15:30 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 10:00:37 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 03:08:03 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	cmd_exist(char **path_command, t_data *data, t_command *cmd)
 	not_command(path_command, data);
 	if (!*path_command)
 		return (1);
-	if (access(*path_command, X_OK))
+	if (access(*path_command, X_OK) && ft_strchr(*path_command, '/'))
 	{
 		perror(*path_command);
 		lp_free(*path_command);

@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:41 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 11:09:23 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 05:42:34 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ int	main(
 		prompt = get_prompt(&data, isatty(0));
 		if (process_input(prompt, &data))
 			break ;
+		lp_free(data.token);
+		data.redirects.in = -1;
+		data.redirects.append = -1;
+		data.redirects.out = -1;
 	}
 	rl_clear_history();
 	if (isatty(0))

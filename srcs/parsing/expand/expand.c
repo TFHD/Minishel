@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:59:51 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 10:53:35 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:07:38 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	extends(char **sub_string, char quote,
 		{
 			if ((ft_isalnum(*(*sub_string + i + 1))
 					|| quote_after_type == '\''
-					|| *(*sub_string + i + 1) == '?'))
+					|| *(*sub_string + i + 1) == '?'
+					|| *(*sub_string + i + 1) == '_'))
 			{
 				env = get_envp(data, *sub_string + i);
 				*sub_string = replace(*sub_string,

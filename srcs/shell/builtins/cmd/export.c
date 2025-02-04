@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 06:27:15 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 03:53:41 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_export(char **envp)
 	}
 }
 
-void	add_export(char *str, t_data *data)
+void	add_export(char *str, t_data *data, int plus)
 {
 	int		i;
 	char	*is_inside_env;
@@ -45,12 +45,18 @@ void	add_export(char *str, t_data *data)
 	i = 0;
 	while (*(str + i) && *(str + i) != '=')
 		i++;
+	if (*(str + i - 1) == '+' && i--)
+		plus++;
 	env_name = lp_substr(str, 0, i);
-	new_content = lp_substr(str, i + 1, ft_strlen(str));
-	is_inside_env = get_env(data->env, env_name);
-	if (is_inside_env != NULL)
-		set_env(data->env, env_name, new_content);
+	if (plus)
+		new_content = lp_strsjoin(0, 2, get_env(data->env, env_name),
+				lp_substr(str, i + 2, ft_strlen(str)));
 	else
+		new_content = lp_substr(str, i + 1, ft_strlen(str));
+	is_inside_env = get_env(data->env, env_name);
+	if (is_inside_env != NULL && ft_strchr(str, '='))
+		set_env(data->env, env_name, new_content);
+	else if (is_inside_env == NULL)
 		modify_env(data, env_name, new_content);
 	lp_free(env_name);
 	lp_free(new_content);
@@ -77,7 +83,7 @@ int	export(t_data **data, t_command *cmd)
 			exit_error = 1;
 		}
 		else
-			add_export(*(cmd->cmds_args + i), (*data));
+			add_export(*(cmd->cmds_args + i), (*data), 0);
 	}
 	return (exit_error);
 }

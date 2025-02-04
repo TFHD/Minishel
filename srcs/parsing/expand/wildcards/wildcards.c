@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:47:40 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 11:09:32 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 05:56:37 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	expand_with_wildcards(char **sub_string)
 	i = 0;
 	sub_cpy = lp_strdup(*sub_string);
 	expand_wc = expand_wildcards(sub_cpy);
+	sort_wilcrads(expand_wc);
 	if (expand_wc[0])
 		res = lp_strdup(expand_wc[0]);
 	i++;

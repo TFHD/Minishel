@@ -6,13 +6,13 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:41:26 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/01 03:21:04 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 04:30:52 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	_print_data_values(t_data *data)
+/*void	_print_data_values(t_data *data)
 {
 	data->redirects.in = -1;
 	data->redirects.append = -1;
@@ -23,7 +23,7 @@ void	_print_data_values(t_data *data)
 	ft_dprintf(2, "red append : \e[32m%d\e[0m\n", data->redirects.append);
 	ft_dprintf(2, "fds : \e[32m%d\e[0m\n", data->fd);
 	ft_dprintf(2, "in_fd : \e[32m%d\e[0m\n", data->infile);
-}
+}*/
 
 static void	__print_node(t_ast *ast, char *x)
 {

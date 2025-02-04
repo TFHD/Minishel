@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:42:47 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 10:00:20 by albernar         ###   ########.fr       */
+/*   Updated: 2025/02/04 04:53:26 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ void	unlink_fd(t_data *data)
 
 	tmp_fd = data->fd;
 	while (--data->fd >= 0)
-	{
 		unlink(data->fds_here_docs[data->fd]);
-		data->fd--;
-	}
 	data->fd = tmp_fd;
 }
 
@@ -53,6 +50,13 @@ static void	not_command3(char **path, t_data *data, struct stat st)
 			*path = NULL;
 			data->exit_code = 127;
 		}
+	}
+	else if (*path && !access(*path, F_OK) && !ft_strchr(*path, '/'))
+	{
+		ft_dprintf(2, "%s: command not found\n", (*path));
+		lp_free(*path);
+		*path = NULL;
+		data->exit_code = 127;
 	}
 }
 

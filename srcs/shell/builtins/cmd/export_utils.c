@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 03:03:00 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 06:43:25 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:15:46 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	is_good_export_name(char *str)
 	alpha = 0;
 	if (!*str || ft_strlen(str) == 0 || *str == '=')
 		return (0);
-	while (*(str + i) && (*(str + i) != '='))
+	while (*(str + i) && *(str + i) != '+' && *(str + i) != '=')
 	{
-		if (!ft_isalnum(*(str + i)) && *(str + i) != '_')
+		if ((!ft_isalnum(*(str + i)) && *(str + i) != '_'))
 			return (0);
 		if (ft_isalpha(*(str + i)))
 			alpha = 1;
@@ -36,6 +36,8 @@ int	is_good_export_name(char *str)
 		}
 		i++;
 	}
+	if (*(str + i) == '+' && *(str + i + 1) != '=')
+		return (0);
 	return (1);
 }
 

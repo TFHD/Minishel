@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 11:05:24 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/03 01:20:49 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 05:45:24 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	ft_exit(t_command *cmd, t_data *data)
 
 	if (!cmd->cmds_args[1])
 	{
+		ft_dprintf(2, "exit\n");
 		exit(data->exit_code);
 		return (data->exit_code);
 	}
@@ -93,9 +94,12 @@ int	ft_exit(t_command *cmd, t_data *data)
 	if (exit_error)
 	{
 		if (exit_error == 2)
+			ft_dprintf(2, "exit\n");
+		if (exit_error == 2)
 			exit (exit_error);
 		return (exit_error);
 	}
+	ft_dprintf(2, "exit\n");
 	exit(code % 256);
 	return (code % 256);
 }

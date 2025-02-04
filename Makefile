@@ -22,6 +22,7 @@ SRCS		:= 	leak_protector/leak_protector.c \
 				parsing/token/token_parser.c \
 				parsing/quotes/parsing_quote.c \
 				parsing/expand/expand.c \
+				parsing/expand/expand_utils.c \
 				shell/env/create_env.c \
 				shell/env/env_list.c \
 				shell/env/env_utils.c \

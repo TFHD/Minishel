@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 10:36:49 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:10:46 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int		token_is_before_invalid_token(t_token *token, t_token *bad_token);
 void	execute_for_pipe(t_ast *ast, t_data *data, int is_pipe);
 void	not_command2(char **path, t_data *data, struct stat st);
 void	unlink_fd(t_data *data);
+void	sort_wilcrads(char **expand_wc);
 
 char	**env_list_to_char(t_env_list *head, char *remove);
 void	no_option(t_command *cmd);

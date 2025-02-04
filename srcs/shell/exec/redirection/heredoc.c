@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 06:56:29 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 04:35:08 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 05:30:15 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	heredocs(char *delimiter, t_data *data)
 	_delimiter = tokenize_input(delimiter);
 	parsing_quote(&_delimiter, data, 0);
 	temp_fd = open(data->fds_here_docs[data->fd], O_WRONLY
-			| O_CREAT | O_TRUNC, 777);
+			| O_CREAT | O_TRUNC, 0664);
 	if (temp_fd == -1)
 	{
 		perror("open");
