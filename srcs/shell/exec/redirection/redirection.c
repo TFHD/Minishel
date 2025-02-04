@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:14:46 by sabartho          #+#    #+#             */
-/*   Updated: 2025/02/04 06:22:35 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:34:25 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	redirect_parser(t_data *data, int *error,
 	}
 }
 
-int	redirect(t_ast *ast, t_data *data, __attribute__ ((unused)) int pipe)
+int	redirect(t_ast *ast, t_data *data)
 {
 	t_token			*in_out_file;
 	int				error;

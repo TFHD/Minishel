@@ -6,13 +6,13 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:41:26 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 04:30:52 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:54:20 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*void	_print_data_values(t_data *data)
+void	_print_data_values(t_data *data)
 {
 	data->redirects.in = -1;
 	data->redirects.append = -1;
@@ -23,7 +23,27 @@
 	ft_dprintf(2, "red append : \e[32m%d\e[0m\n", data->redirects.append);
 	ft_dprintf(2, "fds : \e[32m%d\e[0m\n", data->fd);
 	ft_dprintf(2, "in_fd : \e[32m%d\e[0m\n", data->infile);
-}*/
+}
+
+static int	__print_token_type(t_ast *ast, char *x)
+{
+	if (ast && ast->type == TOKEN_PIPE)
+	{
+		ft_dprintf(2, "%s%s\n", x, "|");
+		return (1);
+	}
+	else if (ast && ast->type == TOKEN_LOGICAL_AND)
+	{
+		ft_dprintf(2, "%s%s\n", x, "&&");
+		return (1);
+	}
+	else if (ast && ast->type == TOKEN_LOGICAL_OR)
+	{
+		ft_dprintf(2, "%s%s\n", x, "||");
+		return (1);
+	}
+	return (0);
+}
 
 static void	__print_node(t_ast *ast, char *x)
 {
@@ -31,13 +51,7 @@ static void	__print_node(t_ast *ast, char *x)
 	static char				**token = NULL;
 	static t_redirection	*red = NULL;
 
-	if (ast && ast->type == TOKEN_PIPE)
-		ft_dprintf(2, "%s%s\n", x, "|");
-	else if (ast && ast->type == TOKEN_LOGICAL_AND)
-		ft_dprintf(2, "%s%s\n", x, "&&");
-	else if (ast && ast->type == TOKEN_LOGICAL_OR)
-		ft_dprintf(2, "%s%s\n", x, "||");
-	else
+	if (!__print_token_type(ast, x))
 	{
 		if (ast->cmd)
 			token = ast->cmd->cmds_args;

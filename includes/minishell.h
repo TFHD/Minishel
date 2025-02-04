@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 02:34:49 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 06:10:46 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:41:57 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	no_option(t_command *cmd);
 int		pwd(t_data *data, t_command *cmd);
 int		env(t_command *cmd, t_data *data);
 int		echo(t_command *cmd);
-int		redirect(t_ast *ast, t_data *data, int pipe);
+int		redirect(t_ast *ast, t_data *data);
 int		ft_exit(t_command *cmd, t_data *data);
 int		cd(t_command *cmd, t_data *data);
 void	set_env(t_env_list *env_list, char *env_name, char *new);

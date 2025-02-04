@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 05:13:14 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/03 10:39:23 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:41:06 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,9 @@ char	**split_pattern_on_slash(const char *pattern)
 	return (segments);
 }
 
-char	**apply_pattern_segments(char **start_paths, char **segments)
+char	**apply_pattern_segments(char **start_paths, char **segments, int i)
 {
 	char	**current_list;
-	int		i;
 	char	**new_list;
 	int		new_count;
 	int		pidx;
@@ -67,7 +66,6 @@ char	**apply_pattern_segments(char **start_paths, char **segments)
 	if (!start_paths || !segments)
 		return (NULL);
 	current_list = start_paths;
-	i = -1;
 	while (segments[++i])
 	{
 		new_list = NULL;

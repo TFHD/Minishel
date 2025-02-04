@@ -6,7 +6,7 @@
 /*   By: albernar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:47:40 by albernar          #+#    #+#             */
-/*   Updated: 2025/02/04 05:56:37 by sabartho         ###   ########.fr       */
+/*   Updated: 2025/02/04 06:41:27 by sabartho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	**expand_path_pattern(const char *pattern)
 	start = create_initial_start(is_absolute);
 	if (!start)
 		return (NULL);
-	res = apply_pattern_segments(start, segs);
+	res = apply_pattern_segments(start, segs, -1);
 	free_args(segs);
 	if (!res)
 		return (NULL);
